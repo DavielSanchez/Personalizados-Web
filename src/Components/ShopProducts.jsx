@@ -54,7 +54,7 @@ function ShopProducts() {
                         </div>
                     </div>
                     {data.map((P) => (
-                    <Product_Card Title={P.productName} Price={P.productPrice} ID={P._id} key={P._id}/>
+                    <Product_Card Title={P.productName} Price={P.productPrice} ID={P._id} key={P._id} Image={P.productMainImage}/>
                         ))
                     }
                 </div>

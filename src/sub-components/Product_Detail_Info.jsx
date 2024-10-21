@@ -5,7 +5,6 @@ function Product_Detail_Info() {
 
     const location = useLocation()
     const { productId } = location.state
-    console.log(productId)
 
     const [data, setData] = useState([])
     const url = `http://localhost:3000/products/id/${productId}`
@@ -21,11 +20,10 @@ function Product_Detail_Info() {
             if(result != []){
                 setData(result[0])
                 setColors(result[0].productColors)
-                console.log(colors)
+                
             }else{
-                console.log(data)
+                // console.log(data)
             }
-            console.log(data)
         }
         catch (error){
             console.error(error)

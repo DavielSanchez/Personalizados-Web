@@ -1,4 +1,12 @@
-:root {
+****** Bootstrap Theming *******
+/*!
+ * Bootstrap v4.5.3 (https://getbootstrap.com/)
+ * Copyright 2011-2020 The Bootstrap Authors
+ * Copyright 2011-2020 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ */
+
+ :root {
     --blue: #007bff;
     --indigo: #6610f2;
     --purple: #6f42c1;
@@ -636,6 +644,33 @@ pre code {
     .container,
     .container-sm {
         max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container,
+    .container-sm,
+    .container-md {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container,
+    .container-sm,
+    .container-md,
+    .container-lg {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container,
+    .container-sm,
+    .container-md,
+    .container-lg,
+    .container-xl {
+        max-width: 1140px;
     }
 }
 
@@ -9901,126 +9936,4 @@ a.text-dark:focus {
     100% {
         transform: translateY(-15px);
     }
-}
-
-.rating:not(:checked)>input {
-    position: absolute;
-    appearance: none;
-}
-
-.rating:not(:checked)>label {
-    float: right;
-    cursor: pointer;
-    font-size: 30px;
-    color: #666;
-}
-
-.rating:not(:checked)>label:before {
-    content: '★';
-}
-
-.rating>input:checked+label:hover,
-.rating>input:checked+label:hover~label,
-.rating>input:checked~label:hover,
-.rating>input:checked~label:hover~label,
-.rating>label:hover~input:checked~label {
-    color: #e58e09;
-}
-
-.rating:not(:checked)>label:hover,
-.rating:not(:checked)>label:hover~label {
-    color: #ff9e0b;
-}
-
-.rating>input:checked~label {
-    color: #ffa723;
-}
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.accountContainer {
-    display: flex;
-    justify-content: center;
-}
-
-.accountTable {
-    width: 80vw;
-    /* height: 80vh; */
-    background-color: #F4F5FA;
-    border-color: #007bff;
-    -webkit-box-shadow: 0px 0px 27px -10px rgba(71, 71, 71, 1);
-    -moz-box-shadow: 0px 0px 27px -10px rgba(71, 71, 71, 1);
-    box-shadow: 0px 0px 27px -10px rgba(71, 71, 71, 1);
-}
-
-.photoAvatarContainer {
-    margin: 2rem;
-}
-
-.photoAvatar {
-    display: flex;
-    align-items: center;
-}
-
-.newPhoto {
-    display: block;
-    width: 100vw;
-}
-
-.newPhotoInput {
-    margin-left: 30px;
-    width: 31%;
-    height: 50%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.newPhotoInputLabel {
-    margin-left: 30px;
-    margin-top: 2%;
-}
-
-.avatarImage {
-    width: 160px;
-    height: 160px;
-}
-
-.formAccount {
-    margin-top: 4%;
-}
-
-.newFormAccountInput {
-    margin-left: 1%;
-    margin-top: 2%;
-    width: 28%;
-    height: 50%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.securityTabContainer {
-    display: flex;
-}
-
-.svgContainer {
-    width: 30%;
-    display: flex;
-    justify-content: center;
-    margin-left: 8%;
-}
-
-.newFormPasswordInput {
-    margin-left: 2%;
-    margin-top: 3%;
-    width: 28%;
-    height: 50%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }

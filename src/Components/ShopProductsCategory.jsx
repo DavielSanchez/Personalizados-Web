@@ -3,12 +3,15 @@ import { useState, useEffect } from "react"
 // import { Link } from "react-router-dom"
 import Navigation from "./Navigation"
 import Product_Card from "../sub-components/Product_Card"
+import { Auth } from "../FireBaseConfig/Authentication"
 
 function ShopProductsCategory(P) {
 
+    Auth()
+
     const [data, setData] = useState([])
-    console.log(P.categoryId)
     const url = `http://localhost:3000/products/category/${P.categoryId}`
+    
 
     useEffect(() => {
         fetchData();
@@ -18,8 +21,8 @@ function ShopProductsCategory(P) {
         try{
             const response = await fetch(url)
             const result = await response.json()
+            console.log(result)
             setData(result)
-            console.log(data)
         }
         catch (error){
             console.error(error)
@@ -55,7 +58,7 @@ function ShopProductsCategory(P) {
                         </div>
                     </div>
                     {data.map((P) => (
-                    <Product_Card Title={P.productName} Price={P.productPrice} ID={P._id} key={P._id}/>
+                    <Product_Card Title={P.productName} Price={P.productPrice} ID={P._id} key={P._id} Image={P.productMainImage}/>
                         ))
                     }
                 </div>

@@ -17,7 +17,7 @@ function carousel() {
                             <div className="container">
                                 <h4 className="text-light text-uppercase font-weight-medium mb-3">-10% en tu primera Compra</h4>
                                 <h3 className="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
-                                <a href="" className="btn btn-primary py-2 px-3">Shop Now</a>
+                                <a href="" className="btn btn-primary py-2 px-3 text-white">Shop Now</a>
                             </div>
                         </div>
                         </div>
@@ -27,7 +27,7 @@ function carousel() {
                             <div className="container">
                                     <h4 className="text-light text-uppercase font-weight-medium mb-3">-10% en tu primera Compra</h4>
                                     <h3 className="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
-                                    <a href="" className="btn btn-primary py-2 px-3">Shop Now</a>
+                                    <a href="" className="btn btn-primary py-2 px-3 text-white">Shop Now</a>
                             </div>
                         </div>
                         </div>

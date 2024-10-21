@@ -42,20 +42,20 @@ function Categories() {
     <>
       <div className="container-fluid pt-5">
         <div className="row px-xl-5 pb-3">
-          {data.map((category) => (
-            <div className="col-lg-4 col-md-6 pb-1" key={category._id}>
+          {data.map((P) => (
+            <div className="col-lg-4 col-md-6 pb-1" key={P._id}>
               <div className="cat-item d-flex flex-column border mb-4" style={{ padding: "30px" }}>
                 <p className="text-right">
-                  ({getProductsCountByCategory(category._id)}) Productos
+                  ({getProductsCountByCategory(P._id)}) Productos
                 </p>
                 <Link
-                  to={{ pathname: `/category/${category.categoryTag}` }}
+                  to={{ pathname: `/category/${P.categoryTag}` }}
                   className="cat-img position-relative overflow-hidden mb-3"
-                  state={{ Current: category.categoryName, ID: category._id }}
+                  state={{ Current: P.categoryName, categoryId: P._id }}
                 >
-                  <img className="img-fluid" src={category.categoryImage} alt="" />
+                  <img className="img-fluid" src={P.categoryImage} alt="" />
                 </Link>
-                <h5 className="font-weight-semi-bold m-0">{category.categoryName}</h5>
+                <h5 className="font-weight-semi-bold m-0">{P.categoryName}</h5>
               </div>
             </div>
           ))}

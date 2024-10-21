@@ -4,8 +4,10 @@ import FilterList from "../sub-components/FilterList"
 import ShopProducts from "../Components/ShopProducts"
 import Footer from "../Components/Footer"
 import Banner from "../Components/Banner"
+import { Auth } from "../FireBaseConfig/Authentication"
 
 function Shop() {
+  Auth()
   return (
     <>
     <title>Personalizados Web | Shop</title>

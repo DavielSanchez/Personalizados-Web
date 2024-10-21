@@ -1,6 +1,6 @@
 import { Badge } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import User from './user';
+import User from './User';
 
 function Search() {
   return (
@@ -32,7 +32,7 @@ function Search() {
                         <ShoppingCartIcon className='text-primary'/>
                     </Badge>
                 </a>
-                <a href="" className="btn">
+                <a className="btn">
                 <User/>
                 </a>
             </div>
