@@ -1,61 +1,65 @@
 import { Avatar, Button, Menu, MenuItem, ListItemIcon, Divider } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Logout from '@mui/icons-material/Logout';
-import { logoutUser } from "../FireBaseConfig/authService";
+import { logoutUser, saveUserIdToStorage } from "../FireBaseConfig/authService";
 import { Auth } from "../FireBaseConfig/useAuthState";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged  } from "firebase/auth";
+
 
 
 
 function User() {
   const user = Auth(); // Obtiene el estado de autenticación
   const [anchorEl, setAnchorEl] = useState(null);
-  const [userResults, setUserResults] = useState()
-  // const [userFirstName, setUserFirstName] = useState(''); // result[0].userFirstName
-  // const [userLastName, setUserLastName] = useState(''); // result[0].userLastName
-  // const [userName, setUserName] = useState(''); // result[0].userName
-  // const [userEmail, setUserEmail] = useState(''); // result[0].userEmail
-  // const [userPassword, setUserPassword] = useState(''); // result[0].userPassword
-  // const [phoneNumber, setPhoneNumber] = useState(''); // result[0].phoneNumber
-  // const [userRegistrationDate, setUserRegistrationDate] = useState(''); // result[0].userRegistrationDate
-  // const [lastLogin, setLastLogin] = useState(''); // result[0].lastLogin
-  // const [userRole, setUserRole] = useState(''); // result[0].userRole
-  // const [userAccountStatus, setUserAccountStatus] = useState(''); // result[0].userAccountStatus
-  // const [profileImageUrl, setProfileImageUrl] = useState(''); // result[0].profileImageUrl
-  // const [firebaseUID, setFirebaseUID] = useState('');
+  // const [userResults, setUserResults] = useState()
   const open = Boolean(anchorEl);
 
   const auth = getAuth();
-  const uid = auth.currentUser.uid
+  // const uid = auth.currentUser.uid
+  
+  useEffect(() => {
+    const auth = getAuth(); // Obtener la instancia de autenticación
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Usuario autenticado, obtener el UID
+        const uid = user.uid;
+        saveUserIdToStorage(uid); // Guardar el UID en el almacenamiento local
+      } else {
+        saveUserIdToStorage(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+  
 
-  const url = `http://localhost:3000/user/uid/${uid}`
+  // const url = `http://localhost:3000/user/uid/${uid}`
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+  //   useEffect(() => {
+  //       fetchData();
+  //   }, []);
 
-    const fetchData = async () => {
-        try{
-            const response = await fetch(url)
-            const result = await response.json()
-          //   setUserFirstName(result[0].userFirstName);
-          // setUserLastName(result[0].userLastName);
-          // setUserName(result[0].userName);
-          // setUserEmail(result[0].userEmail);
-          // setUserPassword(result[0].userPassword);
-          // setPhoneNumber(result[0].phoneNumber);
-          // setUserRegistrationDate(result[0].userRegistrationDate);
-          // setLastLogin(result[0].lastLogin);
-          // setUserRole(result[0].userRole);
-          // setUserAccountStatus(result[0].userAccountStatus);
-          // setProfileImageUrl(result[0].profileImageUrl);
-          // setFirebaseUID(result[0].firebaseUID);
+  //   const fetchData = async () => {
+  //       try{
+  //           const response = await fetch(url)
+  //           const result = await response.json()
+  //         //   setUserFirstName(result[0].userFirstName);
+  //         // setUserLastName(result[0].userLastName);
+  //         // setUserName(result[0].userName);
+  //         // setUserEmail(result[0].userEmail);
+  //         // setUserPassword(result[0].userPassword);
+  //         // setPhoneNumber(result[0].phoneNumber);
+  //         // setUserRegistrationDate(result[0].userRegistrationDate);
+  //         // setLastLogin(result[0].lastLogin);
+  //         // setUserRole(result[0].userRole);
+  //         // setUserAccountStatus(result[0].userAccountStatus);
+  //         // setProfileImageUrl(result[0].profileImageUrl);
+  //         // setFirebaseUID(result[0].firebaseUID);
             
-        }
-        catch (error){
-            console.error(error)
-        }
-    }
+  //       }
+  //       catch (error){
+  //           console.error(error)
+  //       }
+  //   }
 
   
 
@@ -68,32 +72,32 @@ function User() {
     // window.location.replace("/account")
   };
 
-  function stringToColor(string) {
-        let hash = 0;
-        let i;
+  // function stringToColor(string) {
+  //       let hash = 0;
+  //       let i;
     
-        for (i = 0; i < string.length; i += 1) {
-          hash = string.charCodeAt(i) + ((hash << 5) - hash);
-        }
+  //       for (i = 0; i < string.length; i += 1) {
+  //         hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  //       }
     
-        let color = '#';
+  //       let color = '#';
     
-        for (i = 0; i < 3; i += 1) {
-          const value = (hash >> (i * 8)) & 0xff;
-          color += `00${value.toString(16)}`.slice(-2);
-        }
+  //       for (i = 0; i < 3; i += 1) {
+  //         const value = (hash >> (i * 8)) & 0xff;
+  //         color += `00${value.toString(16)}`.slice(-2);
+  //       }
     
-        return color;
-      }
+  //       return color;
+  //     }
     
-      function stringAvatar(name) {
-        return {
-          sx: {
-            bgcolor: stringToColor(name),
-          },
-          children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-        };
-      }
+      // function stringAvatar(name) {
+      //   return {
+      //     sx: {
+      //       bgcolor: stringToColor(name),
+      //     },
+      //     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+      //   };
+      // }
 
   if (!user) {
         return <Button sx={{
