@@ -5,8 +5,8 @@ function Categories() {
   const [data, setData] = useState([]);
   const [Productdata, setProductdata] = useState([]);
 
-  const urlCategories = `http://localhost:3000/categories`;
-  const urlProducts = `http://localhost:3000/products`;
+  const urlCategories = `${import.meta.env.VITE_API_LINK}/categories`;
+  const urlProducts = `${import.meta.env.VITE_API_LINK}/products`;
 
   useEffect(() => {
     fetchDataCategories();

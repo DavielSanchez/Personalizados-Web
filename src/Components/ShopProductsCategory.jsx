@@ -10,7 +10,7 @@ function ShopProductsCategory(P) {
     Auth()
 
     const [data, setData] = useState([])
-    const url = `http://localhost:3000/products/category/${P.categoryId}`
+    const url = `${import.meta.env.VITE_API_LINK}/products/category/${P.categoryId}`
     
 
     useEffect(() => {

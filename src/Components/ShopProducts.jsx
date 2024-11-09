@@ -3,11 +3,12 @@ import { useState, useEffect } from "react"
 // import { Link } from "react-router-dom"
 import Navigation from "./Navigation"
 import Product_Card from "../sub-components/Product_Card"
+import Skeleton from '@mui/material/Skeleton';
 
 function ShopProducts() {
 
     const [data, setData] = useState([])
-    const url = `http://localhost:3000/products`
+    const url = `${import.meta.env.VITE_API_LINK}/products`
 
     useEffect(() => {
         fetchData();
@@ -53,10 +54,12 @@ function ShopProducts() {
                             </form>
                         </div>
                     </div>
-                    {data.map((P) => (
+                    {data != null || [] ? 
+                    data.map((P) => (
                     <Product_Card Title={P.productName} Price={P.productPrice} ID={P._id} key={P._id} Image={P.productMainImage}/>
-                        ))
+                        )) : <Skeleton variant="rectangular" width={210} height={118} />
                     }
+                    
                 </div>
             </div>
                 <Navigation/>

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 function Categories_Dropdown() {
 
   const [data, setData] = useState([])
-    const url = `http://localhost:3000/categories`
+    const url = `${import.meta.env.VITE_API_LINK}/categories`
 
     useEffect(() => {
         fetchData();

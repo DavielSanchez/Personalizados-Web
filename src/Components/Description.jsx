@@ -12,8 +12,8 @@ function Description(P) {
     const [currentPage, setCurrentPage] = useState(1);
     const [hasMoreReviews, setHasMoreReviews] = useState(true);  // Nuevo estado
     const ID = P.productId;
-    const url = `http://localhost:3000/products/id/${ID.productId}`;
-    const urlReview = `http://localhost:3000/reviews/${ID.productId}?limit=3&page=${currentPage}`;
+    const url = `${import.meta.env.VITE_API_LINK}/products/id/${ID.productId}`;
+    const urlReview = `${import.meta.env.VITE_API_LINK}/reviews/${ID.productId}?limit=3&page=${currentPage}`;
 
     useEffect(() => {
         fetchData();

@@ -36,7 +36,7 @@ function AccountTab() {
   }, [UID]);
 
   const fetchData = async () => {
-    const url = `http://localhost:3000/user/uid/${UID}`;
+    const url = `${import.meta.env.VITE_API_LINK}/user/uid/${UID}`;
     try {
       const response = await fetch(url);
       const result = await response.json();

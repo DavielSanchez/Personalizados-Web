@@ -8,7 +8,7 @@ function Product_Detail_Carousel() {
     const { productId } = location.state;
 
     const [data, setData] = useState(null); // Cambiado a null para manejar la verificación más adelante
-    const url = `http://localhost:3000/products/id/${productId}`;
+    const url = `${import.meta.env.VITE_API_LINK}/products/id/${productId}`;
 
     useEffect(() => {
         fetchData();

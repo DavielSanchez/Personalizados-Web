@@ -1,4 +1,5 @@
 // import { useState, useEffect } from "react"
+import addToShoppingCart from "./addToShoppingCart";
 import { Link } from "react-router-dom";
 function Product_Card(P) {
 
@@ -12,7 +13,7 @@ function Product_Card(P) {
                 <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 className="text-truncate mb-3">{P.Title}</h6>
                     <div className="d-flex justify-content-center">
-                        <h6>${new Intl.NumberFormat().format(P.Price)}</h6>
+                        <h6>RD${new Intl.NumberFormat().format(P.Price)}</h6>
                         {/* <h6 className="text-muted ml-2">
                             <del>${new Intl.NumberFormat().format()}</del>
                         </h6> */}
@@ -25,7 +26,7 @@ function Product_Card(P) {
                     state={{ productId: P.ID }}>
                         <i className="fas fa-eye text-primary mr-1" ></i>View Details
                         </Link>
-                    <Link to="" className="btn btn-sm text-dark p-0"><i className="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</Link>
+                        <addToShoppingCart  />
                 </div>
             </div>
         </div>

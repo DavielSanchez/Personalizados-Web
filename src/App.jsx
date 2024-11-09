@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Home from "./Pages/Home"
 import Shop from "./Pages/Shop"
-import ShoppingCar from "./Pages/ShoppingCar"
+import ShoppingCart from "./Pages/ShoppingCart"
 import ProductDetail from "./Pages/ProductDetail"
 import Categories_Shop from "./Pages/Categories_Shop"
 import SignIn from "./Pages/Register"
@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route index path="/" element={<Home/>} />
           <Route path="/shop" element={<Shop/>}/>
-          <Route path="/shoppingcar" element={<ShoppingCar/>}/>
+          <Route path="/shoppingcar" element={<ShoppingCart/>}/>
           <Route path="/product" element={<ProductDetail/>}/>
           <Route path="/category/:category" element={<Categories_Shop/>}/>
           {/* <Route path="/try" element={<PruebaApi/>}/> */}
