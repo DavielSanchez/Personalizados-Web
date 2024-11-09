@@ -2,7 +2,7 @@
 app = "personalizados-web"
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = "./DockerFile"
 
 [[services]]
   internal_port = 3000
