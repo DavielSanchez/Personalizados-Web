@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-function addToShoppingCart(P) {
+function addToShoppingCart() {
 
 
 

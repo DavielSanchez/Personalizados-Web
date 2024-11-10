@@ -31,7 +31,7 @@ function ProductDetail() {
 
   return (
     <>
-      <title>Colorful Stylish Shirt</title>
+      <title>{data.productName}</title>
       <TopBar />
       <NavBar />
       <div className="row px-xl-5">

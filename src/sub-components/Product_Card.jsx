@@ -1,5 +1,5 @@
 // import { useState, useEffect } from "react"
-import addToShoppingCart from "./addToShoppingCart";
+// import addToShoppingCart from "./addToShoppingCart";
 import { Link } from "react-router-dom";
 function Product_Card(P) {
 
@@ -26,7 +26,8 @@ function Product_Card(P) {
                     state={{ productId: P.ID }}>
                         <i className="fas fa-eye text-primary mr-1" ></i>View Details
                         </Link>
-                        <addToShoppingCart  />
+                        <Link to="" className="btn btn-sm text-dark p-0"><i className="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</Link>
+                        {/* <addToShoppingCart  /> */}
                 </div>
             </div>
         </div>
