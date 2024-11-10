@@ -53,7 +53,7 @@ VITE_API_LINK=YOUR_BACKEND_API_LINK
 El proyecto está desplegado en Render.com, lo que asegura una experiencia rápida y confiable para los usuarios.
 
 ## 🚀 Futuras Mejoras
--Optimización de SEO: Mejora en la optimización de motores de búsqueda.
--Notificaciones en tiempo real: Notificaciones para actualizar a los usuarios sobre el estado de su pedido.
--Panel de administración: Funcionalidades avanzadas de gestión de productos y pedidos para el administrador.
+- Optimización de SEO: Mejora en la optimización de motores de búsqueda.
+- Notificaciones en tiempo real: Notificaciones para actualizar a los usuarios sobre el estado de su pedido.
+- Panel de administración: Funcionalidades avanzadas de gestión de productos y pedidos para el administrador.
 
