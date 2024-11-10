@@ -1,6 +1,13 @@
 # Personalizados RD
 
+## Pagina web
 [Personalizados RD](https://personalizados-web.onrender.com)
+
+## API
+[Personalizados-Backend](https://github.com/DavielSanchez/Personalizados-Backend.git)
+
+## CMS
+[Personalizados-CMS](https://github.com/DavielSanchez/Personalizados_CMS.git)
 
 Personalizados RD es una tienda en línea de productos personalizados, diseñada para ofrecer a los clientes la posibilidad de agregar su toque único a cada producto. Desde camisetas, tazas, hasta artículos promocionales, esta plataforma permite la personalización y compra de artículos para regalos, eventos especiales o campañas de marketing.
 
