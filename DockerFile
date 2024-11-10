@@ -1,34 +1,42 @@
-# FROM nginx:latest
+# # FROM nginx:latest
 
-# COPY ../personalizados-web /user/share/nginx/html/personalizados-web
+# # COPY ../personalizados-web /user/share/nginx/html/personalizados-web
 
-# 1. Usa una imagen de Node.js optimizada para producción
-FROM node:18-alpine AS build
+# # 1. Usa una imagen de Node.js optimizada para producción
+# FROM node:18-alpine AS build
 
-# 2. Establece el directorio de trabajo dentro del contenedor
+# # 2. Establece el directorio de trabajo dentro del contenedor
+# WORKDIR /app
+
+# # 3. Copia solo los archivos necesarios para instalar dependencias
+# COPY package.json package-lock.json ./
+
+# # 4. Instala las dependencias
+# RUN npm install --production
+
+# # 5. Copia el resto del código de la aplicación
+# COPY . .
+
+# # 6. Construye la aplicación (si tienes un script de construcción)
+# RUN npm run build
+
+# # 7. Usa una imagen ligera para la etapa de producción
+# FROM node:16-alpine
+
+# # 8. Copia las dependencias y el código de la aplicación de la etapa de construcción
+# WORKDIR /app
+# COPY --from=build /app .
+
+# # 9. Expone el puerto en el que se ejecutará la aplicación (ajusta si es necesario)
+# EXPOSE 3000
+
+# # 10. Define el comando para ejecutar la aplicación
+# CMD ["npm", "start"]
+
+FROM node:18-alpine
 WORKDIR /app
-
-# 3. Copia solo los archivos necesarios para instalar dependencias
-COPY package.json package-lock.json ./
-
-# 4. Instala las dependencias
-RUN npm install --production
-
-# 5. Copia el resto del código de la aplicación
+COPY package.json .
+RUN npm i
 COPY . .
-
-# 6. Construye la aplicación (si tienes un script de construcción)
-RUN npm run build
-
-# 7. Usa una imagen ligera para la etapa de producción
-FROM node:16-alpine
-
-# 8. Copia las dependencias y el código de la aplicación de la etapa de construcción
-WORKDIR /app
-COPY --from=build /app .
-
-# 9. Expone el puerto en el que se ejecutará la aplicación (ajusta si es necesario)
 EXPOSE 3000
-
-# 10. Define el comando para ejecutar la aplicación
-CMD ["npm", "start"]
+CMD [ "npm", "run", "dev" ]
