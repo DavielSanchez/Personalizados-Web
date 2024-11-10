@@ -1,5 +1,5 @@
 import { Badge } from '@mui/material';
-import User from './User';
+import User from './user.jsx';
 
 function Search() {
   return (
