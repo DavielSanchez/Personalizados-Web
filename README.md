@@ -49,6 +49,11 @@ VITE_MEASUREMENT_ID=YOUR_FIREBASE_MEASUREMENT_ID
 VITE_API_LINK=YOUR_BACKEND_API_LINK
 ```
 
+Corre el proyecto en desarrollo:
+```
+npm run dev
+```
+
 ## 🌍 Despliegue
 El proyecto está desplegado en Render.com, lo que asegura una experiencia rápida y confiable para los usuarios.
 
