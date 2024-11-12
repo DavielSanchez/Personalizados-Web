@@ -16,7 +16,7 @@ function NavBarHome() {
                     <a href="" className="text-decoration-none d-block d-lg-none">
                         <h1 className="m-0 display-5 font-weight-semi-bold"><span className="text-primary font-weight-bold border px-3 mr-1">
                             {/* <img src="../../public/img/Logo.png" alt="" /> */}P
-                        </span>Shopper</h1>
+                        </span>Shop</h1>
                     </a>
                     <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span className="navbar-toggler-icon"></span>
