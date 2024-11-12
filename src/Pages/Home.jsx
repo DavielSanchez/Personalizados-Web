@@ -7,11 +7,13 @@ import TrendingProducts from "../Components/TrendingProducts"
 import Suscribe from "../Components/Suscribe"
 import Proveedores from "../Components/Proveedores"
 import Footer from "../Components/Footer"
+import AlertDisclaimer from "../sub-components/AlertDisclaimer"
 function Home() {
   return (
     <>
     <title>Personalizados Web</title>
     <TopBar/>
+    <AlertDisclaimer/>
     <NavBarHome/>
     <Features/>
     <Categories/>
