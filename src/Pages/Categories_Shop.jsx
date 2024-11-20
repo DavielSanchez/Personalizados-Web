@@ -12,8 +12,6 @@ function Categories_Shop() {
 
     const location = useLocation()
     const { Current, categoryId } = location.state
-    console.log(categoryId)
-    console.log(Current)
 
   return (
     <>

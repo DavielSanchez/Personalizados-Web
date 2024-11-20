@@ -9,10 +9,10 @@ import Footer from "../Components/Footer";
 
 function ProductDetail() {
   const location = useLocation();
-  const productId = location.state; // Asegúrate de que esto contiene el ID correcto
+  const {productId, userId} = location.state; // Asegúrate de que esto contiene el ID correcto
   
   const [data, setData] = useState([]);
-  const url = `http://localhost:3000/products/${productId}`;
+  const url = `${import.meta.env.VITE_API_LINK}/products/${productId}`;
 
   useEffect(() => {
       fetchData();
@@ -23,7 +23,6 @@ function ProductDetail() {
           const response = await fetch(url);
           const result = await response.json();
           setData(result); // Guardar el resultado en el estado
-          console.log(data); // Mostrar el resultado obtenido
       } catch (error) {
           console.error(error);
       }
@@ -36,7 +35,7 @@ function ProductDetail() {
       <NavBar />
       <div className="row px-xl-5">
           <Product_Detail_Carousel images={data.productImages} /> {/* Aquí se pasa correctamente la prop */}
-          <Product_Detail_Info productId={productId} />
+          <Product_Detail_Info productId={productId} userId={userId} />
       </div>
       <Description productId={productId} />
       <Footer />

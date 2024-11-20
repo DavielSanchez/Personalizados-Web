@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import '../../public/css/detail_carousel.css';
 import { useLocation } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
+import Skeleton from '@mui/material/Skeleton';
 
 function Product_Detail_Carousel() {
     const location = useLocation();
     const { productId } = location.state;
 
-    const [data, setData] = useState(null); // Cambiado a null para manejar la verificación más adelante
+    const [data, setData] = useState(null);
     const url = `${import.meta.env.VITE_API_LINK}/products/id/${productId}`;
 
     useEffect(() => {
@@ -18,7 +20,7 @@ function Product_Detail_Carousel() {
             const response = await fetch(url);
             const result = await response.json();
             if (result.length > 0) {
-                setData(result[0]); // Suponiendo que el resultado es un array y tomamos el primer elemento
+                setData(result[0]);
             } else {
                 console.log("No se encontró el producto.");
             }
@@ -27,7 +29,51 @@ function Product_Detail_Carousel() {
         }
     };
 
-    if (!data) return <div>Cargando...</div>; // Mensaje de carga hasta que se obtengan los datos
+    // if (!data) return <div>Cargando...</div>;
+
+    if (!data) return( 
+    <>
+    <div className="container">
+                <div className="featured-wrapper">
+                    <ul className="featured-list">
+                    <Skeleton variant="rectangular" width="100%">
+                        <div style={{ paddingTop: '57%' }} />
+                    </Skeleton>
+                    </ul>
+                    <ul className="arrows">
+                        
+                    </ul>
+                    <ul className="dots">
+                        
+                    </ul>
+                </div>
+                <ul className="thumb-list">
+                    
+                        <li>
+                            <label htmlFor='image'>
+                            <Skeleton variant="rectangular" width="100%">
+                                <div style={{ paddingTop: '57%' }} />
+                            </Skeleton>
+                            </label>
+                        </li>
+                        <li>
+                            <label htmlFor='image'>
+                            <Skeleton variant="rectangular" width="100%">
+                                <div style={{ paddingTop: '57%' }} />
+                            </Skeleton>
+                            </label>
+                        </li>
+                        <li>
+                            <label htmlFor='image'>
+                            <Skeleton variant="rectangular" width="100%">
+                                <div style={{ paddingTop: '57%' }} />
+                            </Skeleton>
+                            </label>
+                        </li>
+                </ul>
+            </div>
+    </>
+    )
 
     return (
         <>
@@ -37,7 +83,7 @@ function Product_Detail_Carousel() {
                     type="radio" 
                     id={`image${index + 1}`} 
                     name="image" 
-                    defaultChecked={index === 0} // Marcar el primer radio como seleccionado por defecto
+                    defaultChecked={index === 0}
                 />
             ))}
 

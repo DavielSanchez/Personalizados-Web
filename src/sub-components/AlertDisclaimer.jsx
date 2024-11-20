@@ -1,4 +1,4 @@
-import {React, useEffect} from 'react'
+import { useEffect} from 'react'
 function AlertDisclaimer() {
 
     useEffect(() => {
@@ -18,15 +18,15 @@ function AlertDisclaimer() {
           </div>
           <div className="modal-body mb-3">
             Esta aplicacion aun se encuentra en etapa de desarrollo, el proposito de que este desplegada es para servir de demostracion y ejemplo.
-            <p className="mt-3">Features en desarrollo:
+            <p className="mt-3">Features en desarrollo:</p>
                 <ol className="text-primary">
-                    <li>Carrito de compras</li>
-                    <li>Productos en tendencia</li>
-                    <li>Busqueda avanzada de productos</li>
-                    <li>Proceso de pago(demo)</li>
+                    {/* <li>Carrito de compras</li> */}
+                    <li>Productos en tendencia.</li>
+                    <li>Busqueda avanzada de productos.</li>
+                    <li>Apartado de cuentas y usuarios.</li>
+                    <li>Proceso de pago (demo).</li>
                 </ol>
-                <code className="text-danger">V1.0</code>
-            </p>
+                <code className="text-danger">V1.1</code>
           </div>
         </div>
       </div>

@@ -1,7 +1,113 @@
-// import { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 // import addToShoppingCart from "./addToShoppingCart";
 import { Link } from "react-router-dom";
+import { getAuth } from "firebase/auth";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 function Product_Card(P) {
+
+    const MySwal = withReactContent(Swal)
+
+    const [userId, setUserId] = useState('');
+    const [productId, setProductId] = useState(P.ID);
+    const [productName, setProductName] = useState(P.Title);
+    const [productColor, setProductColor] = useState(P.Color);
+    const [productImage, setProductImage] = useState(P.Image);
+    const [productSize, setProductSize] = useState(P.Size);
+    const [productQuantity, setProductQuantity] = useState(P.Quantity);
+    const [productPrice, setProductPrice] = useState(P.Price);
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [uid, setUid] = useState(null);
+
+    useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                setUid(user.uid);
+            } else {
+                setIsLoading(false);
+            }
+        });
+    
+        // Limpiar el efecto
+        return () => unsubscribe();
+    }, []);
+    
+    useEffect(() => {
+        if (uid) {
+            fetchUserData(uid);
+        }
+    }, [uid]);
+    
+    const fetchUserData = async (userUid) => {
+        try {
+            const urlUser = `${import.meta.env.VITE_API_LINK}/user/uid/${userUid}`;
+            const response = await fetch(urlUser);
+    
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+    
+            const result = await response.json();
+    
+            if (Array.isArray(result) && result.length > 0) {
+                setUserId(result[0]._id);
+            } else {
+            }
+        } catch (error) {
+        } finally {
+            setIsLoading(false);  
+        }
+    };
+
+
+
+
+    const data = {
+        userId: userId,
+        productId: productId,
+        productName: productName,
+        productColor: productColor,
+        productImage: productImage,
+        productSize: productSize,
+        productQuantity: productQuantity,
+        productPrice: productPrice,
+    };
+
+    const addToCart = async (e) => {
+
+        e.preventDefault();
+
+        if (userId != null) {
+            try {
+            const response = await fetch(`${import.meta.env.VITE_API_LINK}/cart/add`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify(data), 
+            });
+        
+            if (!response.ok) {
+                throw new Error('Error al enviar el post');
+            }
+        
+            const responseData  = await response.json(); 
+            MySwal.fire({
+                icon: "success",
+                title: "El producto se agrego a tu carrito.",
+                showConfirmButton: false,
+                timer: 1500
+              });
+            
+            } catch (error) {
+            console.error('Error:', error);
+            }
+        }else{
+
+        }
+    }
 
   return (
     <>
@@ -23,11 +129,12 @@ function Product_Card(P) {
                     <Link 
                     to="/product" 
                     className="btn btn-sm text-dark p-0" 
-                    state={{ productId: P.ID }}>
+                    state={{ productId: P.ID, userId: userId }}>
                         <i className="fas fa-eye text-primary mr-1" ></i>View Details
                         </Link>
-                        <Link to="" className="btn btn-sm text-dark p-0"><i className="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</Link>
+                        <button to="" className="btn btn-sm text-dark p-0" onClick={addToCart}><i className="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
                         {/* <addToShoppingCart  /> */}
+                        
                 </div>
             </div>
         </div>

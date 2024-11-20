@@ -16,7 +16,6 @@ function Categories_Dropdown() {
             const response = await fetch(url)
             const result = await response.json()
             setData(result)
-            console.log(data)
         }
         catch (error){
             console.error(error)
