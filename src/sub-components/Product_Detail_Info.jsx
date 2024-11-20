@@ -1,16 +1,34 @@
 import { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
-function Product_Detail_Info() {
+function Product_Detail_Info(P) {
+
+    const MySwal = withReactContent(Swal)
 
     const location = useLocation()
     const { productId } = location.state
+    const [quantity, setQuantity] = useState(1)
+    const [colors, setColors] = useState([])
+    const [sizes, setSizes] = useState([])
 
     const [data, setData] = useState([])
+    const [userId, setUserId] = useState(P.userId);
+    // const [productId, setProductId] = useState();
+    const [productName, setProductName] = useState(data.productName);
+    const [productColor, setProductColor] = useState(null);
+    const [productImage, setProductImage] = useState(data.productMainImage);
+    const [productSize, setProductSize] = useState();
+    const [productQuantity, setProductQuantity] = useState(quantity);
+    // const [productPrice, setProductPrice] = useState();
+
+
     const url = `${import.meta.env.VITE_API_LINK}/products/id/${productId}`
 
     useEffect(() => {
         fetchData();
+        console.log(data)
     }, []);
 
     const fetchData = async () => {
@@ -20,6 +38,8 @@ function Product_Detail_Info() {
             if(result != []){
                 setData(result[0])
                 setColors(result[0].productColors)
+                setSizes(result[0].productSizes)
+                
                 
             }else{
                 // console.log(data)
@@ -30,8 +50,76 @@ function Product_Detail_Info() {
         }
     }
 
-    const [quantity, setQuantity] = useState(1)
-    const [colors, setColors] = useState([])
+    const handleColorChange = (color) => {
+        setProductColor(color);
+      };
+
+      const handleSizeChange = (size) => {
+        setProductSize(size);
+      };
+
+      const dataProduct = {
+        userId: userId,
+        productId: data._id,
+        productName: data.productName,
+        productColor: productColor,
+        productImage: data.productMainImage,
+        productSize: productSize,
+        productQuantity: quantity,
+        productPrice: data.productPrice,
+    };
+
+    const addToCart = async (e) => {
+
+        e.preventDefault();
+
+        console.log(productName)
+
+        if (userId != null) {
+            if (productColor != null) {
+                try {
+                    const response = await fetch(`${import.meta.env.VITE_API_LINK}/cart/add`, {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json', 
+                        },
+                        body: JSON.stringify(dataProduct), 
+                    });
+                
+                    if (!response.ok) {
+                        throw new Error('Error al enviar el post');
+                        console.log(Error)
+                    }
+                
+                    const responseData  = await response.json(); 
+                    console.log(responseData)
+                    console.log(quantity)
+        
+                    MySwal.fire({
+                        icon: "success",
+                        title: "El producto se agrego a tu carrito.",
+                        showConfirmButton: false,
+                        timer: 2000
+                      });
+                    
+                    } catch (error) {
+                    console.error('Error:', error);
+                    }
+            } else{
+                MySwal.fire({
+                    icon: "error",
+                    title: "Selecciona un color para el producto.",
+                    showConfirmButton: false,
+                    showDenyButton: true,
+                    denyButtonText: `Cancelar`
+                  });
+            }
+        }else{
+
+        }
+    }
+    
+
 
   return (
     <>
@@ -51,11 +139,30 @@ function Product_Detail_Info() {
                 <h3 className="font-weight-semi-bold mb-4">${data.productPrice}</h3>
                 <p className="mb-4">{data.productSummary}</p>
                 <div className="d-flex mb-4">
+                    <p className="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
+                    <form>
+                        {sizes.map((size, index) => (
+                            <div key={index} className="custom-control custom-radio custom-control-inline">
+                                <input type="radio" className="custom-control-input" id={`size-${index}`} name="size" 
+                                onChange={() => {
+                                    handleSizeChange(size)
+                                }}
+                                />
+                                <label className="custom-control-label" htmlFor={`size-${index}`}>{size}</label>
+                            </div>
+                        ))}
+                    </form>
+                </div>
+                <div className="d-flex mb-4">
                     <p className="text-dark font-weight-medium mb-0 mr-3">Colors:</p>
                     <form>
                         {colors.map((color, index) => (
                             <div key={index} className="custom-control custom-radio custom-control-inline">
-                                <input type="radio" className="custom-control-input" id={`color-${index}`} name="color"/>
+                                <input type="radio" className="custom-control-input" id={`color-${index}`} name="color" 
+                                onChange={() => {
+                                    handleColorChange(color)
+                                }}
+                                />
                                 <label className="custom-control-label" htmlFor={`color-${index}`}>{color}</label>
                             </div>
                         ))}
@@ -78,12 +185,13 @@ function Product_Detail_Info() {
                         <div className="input-group-btn">
                             <button className="btn btn-primary btn-plus" onClick={() => {
                 setQuantity(quantity + 1)
+                console.log(quantity)
                 }}>
                                 <i className="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
-                    <button className="btn btn-primary px-3"><i className="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+                    <button className="btn btn-primary px-3" onClick={addToCart}><i className="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
                 </div>
                 <div className="d-flex pt-2">
                     <p className="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
@@ -108,3 +216,33 @@ function Product_Detail_Info() {
 }
 
 export default Product_Detail_Info
+
+
+// try {
+//     const response = await fetch(`${import.meta.env.VITE_API_LINK}/cart/add`, {
+//         method: 'POST',
+//         headers: {
+//         'Content-Type': 'application/json', 
+//         },
+//         body: JSON.stringify(dataProduct), 
+//     });
+
+//     if (!response.ok) {
+//         throw new Error('Error al enviar el post');
+//         console.log(Error)
+//     }
+
+//     const responseData  = await response.json(); 
+//     console.log(responseData)
+//     console.log(quantity)
+
+//     MySwal.fire({
+//         icon: "success",
+//         title: "El producto se agrego a tu carrito.",
+//         showConfirmButton: false,
+//         timer: 2000
+//       });
+    
+//     } catch (error) {
+//     console.error('Error:', error);
+//     }
