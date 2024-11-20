@@ -119,7 +119,7 @@ function ShopProductsCategory(P) {
                         </div>
                     </div>
                     {data.map((P) => (
-                    <Product_Card key={P._id} ID={P._id} Title={P.productName} Color={P.productColors[0]} Image={P.productMainImage} Size={P.productSizes[0]} Quantity={1} Price={P.productPrice}  />
+                    <Product_Card key={P._id} ID={P._id} Title={P.productName} Color={P.productColors[0]} Image={P.productMainImage} Size={P.productSizes[0]} Quantity={1} Price={P.productPrice} Offer={P.productOffer} Discount={P.productDiscount} />
                         ))}
                     
                 </div>

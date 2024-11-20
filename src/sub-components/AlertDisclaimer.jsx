@@ -21,9 +21,10 @@ function AlertDisclaimer() {
             <p className="mt-3">Features en desarrollo:</p>
                 <ol className="text-primary">
                     {/* <li>Carrito de compras</li> */}
-                    <li>Productos en tendencia.</li>
+                    {/* <li>Productos en oferta.</li> */}
                     <li>Busqueda avanzada de productos.</li>
                     <li>Apartado de cuentas y usuarios.</li>
+                    <li>Apartado de contactos y Newsletter.</li>
                     <li>Proceso de pago (demo).</li>
                 </ol>
                 <code className="text-danger">V1.1</code>
