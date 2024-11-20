@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
+import Skeleton from '@mui/material/Skeleton';
+
 function Categories() {
   const [data, setData] = useState([]);
   const [Productdata, setProductdata] = useState([]);
@@ -37,6 +39,34 @@ function Categories() {
   const getProductsCountByCategory = (categoryTag) => {
     return Productdata.filter((product) => product.productCategory === categoryTag).length;
   };
+
+  if (data.length === 0) {
+    return (
+      <>
+      <div className="container-fluid pt-5">
+        <div className="row px-xl-5 pb-3">
+          <div className="col-lg-4 col-md-6 pb-1">
+            <Skeleton variant="rectangular" width="100%">
+              <div style={{ paddingTop: '57%' }} />
+            </Skeleton>
+          </div>
+          <div className="col-lg-4 col-md-6 pb-1">
+            <Skeleton variant="rectangular" width="100%">
+              <div style={{ paddingTop: '57%' }} />
+            </Skeleton>
+          </div>
+          <div className="col-lg-4 col-md-6 pb-1">
+            <Skeleton variant="rectangular" width="100%">
+              <div style={{ paddingTop: '57%' }} />
+            </Skeleton>
+          </div>
+        </div>
+      </div>
+      
+      
+    </>
+    )
+  }
 
   return (
     <>

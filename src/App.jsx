@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route index path="/" element={<Home/>} />
           <Route path="/shop" element={<Shop/>}/>
-          <Route path="/shoppingcar" element={<ShoppingCart/>}/>
+          <Route path="/shoppingcart" element={<ShoppingCart/>}/>
           <Route path="/product" element={<ProductDetail/>}/>
           <Route path="/category/:category" element={<Categories_Shop/>}/>
           {/* <Route path="/try" element={<PruebaApi/>}/> */}

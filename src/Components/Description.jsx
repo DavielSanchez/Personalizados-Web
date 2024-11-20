@@ -53,6 +53,7 @@ function Description(P) {
         }
     };
 
+
     return (
         <>
             <div className="row px-xl-5">
@@ -66,7 +67,7 @@ function Description(P) {
                     <Tab eventKey="contact" title="Reviews y Comentarios">
                         <div className="row">
                             <div className="col-md-6">
-                                <h4 className="mb-4">1 review para {data.productName}</h4>
+                                <h4 className="mb-4">Reviews para {data.productName}</h4>
                                 {
                                     reviews.map((rev) => (
                                         <div className="media mb-4" key={rev.id}>
