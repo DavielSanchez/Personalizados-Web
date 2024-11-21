@@ -193,8 +193,8 @@ function OfferProducts() {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="swiper-button-next swiper-navBtn"></div>
-      <div className="swiper-button-prev swiper-navBtn"></div>
+      {/* <div className="swiper-button-next swiper-navBtn"></div>
+      <div className="swiper-button-prev swiper-navBtn"></div> */}
       <div className="swiper-pagination"></div>
 
         </div>
