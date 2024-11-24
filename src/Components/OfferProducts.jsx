@@ -176,7 +176,7 @@ function OfferProducts() {
               <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
                         <h6 className="text-truncate mb-3">{P.productName}</h6>
                         <div className="d-flex justify-content-center">
-                            <h6>RD${new Intl.NumberFormat().format(P.productPrice - P.productDiscount)}</h6><h6 className="text-danger ml-2"><del>RD${new Intl.NumberFormat().format(P.productPrice)}</del></h6>
+                            <h6>RD${new Intl.NumberFormat().format(P.productDiscount)}</h6><h6 className="text-danger ml-2"><del>RD${new Intl.NumberFormat().format(P.productPrice)}</del></h6>
                         </div>
                     </div>
                     <div className="card-footer d-flex justify-content-center bg-light border">

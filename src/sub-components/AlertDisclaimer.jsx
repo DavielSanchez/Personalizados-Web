@@ -20,10 +20,7 @@ function AlertDisclaimer() {
             Esta aplicacion aun se encuentra en etapa de desarrollo, el proposito de que este desplegada es para servir de demostracion y ejemplo.
             <p className="mt-3">Features en desarrollo:</p>
                 <ol className="text-primary">
-                    {/* <li>Carrito de compras</li> */}
-                    {/* <li>Productos en oferta.</li> */}
                     <li>Busqueda avanzada de productos.</li>
-                    <li>Apartado de cuentas y usuarios.</li>
                     <li>Apartado de contactos y Newsletter.</li>
                     <li>Proceso de pago (demo).</li>
                 </ol>

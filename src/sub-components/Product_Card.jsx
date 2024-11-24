@@ -16,9 +16,12 @@ function Product_Card(P) {
     const [productSize, setProductSize] = useState(P.Size);
     const [productQuantity, setProductQuantity] = useState(P.Quantity);
     const [productPrice, setProductPrice] = useState(P.Price);
+    const [productDiscount, setProductDiscount] = useState(P.Discount)
 
     const [isLoading, setIsLoading] = useState(true);
     const [uid, setUid] = useState(null);
+
+    let data;
 
     useEffect(() => {
         const auth = getAuth();
@@ -64,16 +67,29 @@ function Product_Card(P) {
 
 
 
-    const data = {
-        userId: userId,
-        productId: productId,
-        productName: productName,
-        productColor: productColor,
-        productImage: productImage,
-        productSize: productSize,
-        productQuantity: productQuantity,
-        productPrice: productPrice,
-    };
+    if (P.Offer === true) {
+        data = {
+            userId: userId,
+            productId: productId,
+            productName: productName,
+            productColor: productColor,
+            productImage: productImage,
+            productSize: productSize,
+            productQuantity: productQuantity,
+            productPrice: productDiscount,
+        };
+    }else{
+        data = {
+            userId: userId,
+            productId: productId,
+            productName: productName,
+            productColor: productColor,
+            productImage: productImage,
+            productSize: productSize,
+            productQuantity: productQuantity,
+            productPrice: productPrice,
+        };
+    }
 
     const addToCart = async (e) => {
 
@@ -120,7 +136,7 @@ function Product_Card(P) {
                 <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 className="text-truncate mb-3">{P.Title}</h6>
                     <div className="d-flex justify-content-center">
-                        <h6>RD${new Intl.NumberFormat().format(P.Price - P.Discount)}</h6><h6 className="text-danger ml-2"><del>RD${new Intl.NumberFormat().format(P.Price)}</del></h6>
+                        <h6>RD${new Intl.NumberFormat().format(P.Discount)}</h6><h6 className="text-danger ml-2"><del>RD${new Intl.NumberFormat().format(P.Price)}</del></h6>
                         {/* <h6 className="text-muted ml-2">
                             <del>${new Intl.NumberFormat().format()}</del>
                         </h6> */}
