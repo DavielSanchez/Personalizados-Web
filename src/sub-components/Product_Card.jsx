@@ -16,9 +16,12 @@ function Product_Card(P) {
     const [productSize, setProductSize] = useState(P.Size);
     const [productQuantity, setProductQuantity] = useState(P.Quantity);
     const [productPrice, setProductPrice] = useState(P.Price);
+    const [productDiscount, setProductDiscount] = useState(P.Discount)
 
     const [isLoading, setIsLoading] = useState(true);
     const [uid, setUid] = useState(null);
+
+    let data;
 
     useEffect(() => {
         const auth = getAuth();
@@ -64,16 +67,29 @@ function Product_Card(P) {
 
 
 
-    const data = {
-        userId: userId,
-        productId: productId,
-        productName: productName,
-        productColor: productColor,
-        productImage: productImage,
-        productSize: productSize,
-        productQuantity: productQuantity,
-        productPrice: productPrice,
-    };
+    if (P.Offer === true) {
+        data = {
+            userId: userId,
+            productId: productId,
+            productName: productName,
+            productColor: productColor,
+            productImage: productImage,
+            productSize: productSize,
+            productQuantity: productQuantity,
+            productPrice: productDiscount,
+        };
+    }else{
+        data = {
+            userId: userId,
+            productId: productId,
+            productName: productName,
+            productColor: productColor,
+            productImage: productImage,
+            productSize: productSize,
+            productQuantity: productQuantity,
+            productPrice: productPrice,
+        };
+    }
 
     const addToCart = async (e) => {
 
@@ -107,6 +123,40 @@ function Product_Card(P) {
         }else{
 
         }
+    }
+
+    if (P.Offer === true) {
+        return (
+            <>
+        <div className="col-lg-4 col-md-6 col-sm-12 pb-1">
+            <div className="card product-item border-0 mb-4">
+                <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                    <img className="img-fluid w-100" src={P.Image} alt=""/>
+                </div>
+                <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                    <h6 className="text-truncate mb-3">{P.Title}</h6>
+                    <div className="d-flex justify-content-center">
+                        <h6>RD${new Intl.NumberFormat().format(P.Discount)}</h6><h6 className="text-danger ml-2"><del>RD${new Intl.NumberFormat().format(P.Price)}</del></h6>
+                        {/* <h6 className="text-muted ml-2">
+                            <del>${new Intl.NumberFormat().format()}</del>
+                        </h6> */}
+                    </div>
+                </div>
+                <div className="card-footer d-flex justify-content-between bg-light border">
+                    <Link 
+                    to="/product" 
+                    className="btn btn-sm text-dark p-0" 
+                    state={{ productId: P.ID, userId: userId }}>
+                        <i className="fas fa-eye text-primary mr-1" ></i>View Details
+                        </Link>
+                        <button to="" className="btn btn-sm text-dark p-0" onClick={addToCart}><i className="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                        {/* <addToShoppingCart  /> */}
+                        
+                </div>
+            </div>
+        </div>
+    </>
+        )
     }
 
   return (

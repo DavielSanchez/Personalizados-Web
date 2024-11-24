@@ -20,6 +20,7 @@ function Categories() {
       const response = await fetch(urlCategories);
       const result = await response.json();
       setData(result);
+      console.log(result)
     } catch (error) {
       console.error(error);
     }

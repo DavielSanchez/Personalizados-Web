@@ -10024,3 +10024,22 @@ input[type=number]::-webkit-outer-spin-button {
     justify-content: space-between;
     align-items: center;
 }
+
+@media (max-width: 1394px) {
+    .account-text-fields {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1180px) {
+    .svgContainer {
+        display: none;
+    }
+    /* .photoAvatarContainer {
+        display: flex;
+        justify-content: center;
+    } */
+    .securityTabContainer {
+        justify-content: center;
+    }
+}
