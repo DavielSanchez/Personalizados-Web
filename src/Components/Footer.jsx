@@ -18,8 +18,8 @@ function Footer() {
                     <div className="col-md-4 mb-5">
                         <h5 className="font-weight-bold text-dark mb-4">Quick Links</h5>
                         <div className="d-flex flex-column justify-content-start">
-                            <a className="text-dark" href="index.html"><i className="fa fa-angle-right mr-2"></i>Inicio</a>
-                            <a className="text-dark" href="contact.html"><i className="fa fa-angle-right mr-2"></i>Tienda</a>
+                            <a className="text-dark" href="/"><i className="fa fa-angle-right mr-2"></i>Inicio</a>
+                            <a className="text-dark" href="/shop"><i className="fa fa-angle-right mr-2"></i>Tienda</a>
                             <a className="text-dark" href="contact.html"><i className="fa fa-angle-right mr-2"></i>Contactanos</a>
                         </div>
                     </div>

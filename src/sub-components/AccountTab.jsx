@@ -3,20 +3,31 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useState, useEffect } from 'react';
-import { userUpdate, getUserIdFromStorage } from '../FireBaseConfig/authService';
+import { getUserIdFromStorage } from '../FireBaseConfig/authService';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../FireBaseConfig/FireBaseConfig';
+import { getAuth, updateProfile, updateEmail } from "firebase/auth";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 function AccountTab() {
+
+  const MySwal = withReactContent(Swal)
+
+  const [id, setId] = useState('')
   const [newFirstName, setNewFirstName] = useState('');
   const [newLastName, setNewLastName] = useState('');
+  const [newUserName, setUserName] = useState('')
   const [newEmail, setNewEmail] = useState('');
   const [newPhone, setNewPhone] = useState('');
+  const [newPassword, setNewPassword] = useState('')
   const [newImage, setNewImage] = useState('');
-  const [imagePreview, setImagePreview] = useState(''); // Para previsualizar la imagen
+  const [newRole, setNewRole] = useState('');
   const [UID, setUID] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
+
+  const auth = getAuth();
 
   useEffect(() => {
     const savedUserId = getUserIdFromStorage();
@@ -33,6 +44,10 @@ function AccountTab() {
     }
   }, [UID]);
 
+  const restaurar = () => {
+    fetchData()
+  }
+
   const fetchData = async () => {
     const url = `${import.meta.env.VITE_API_LINK}/user/uid/${UID}`;
     try {
@@ -40,12 +55,15 @@ function AccountTab() {
       const result = await response.json();
 
       if (result && result.length > 0) {
+        setId(result[0]._id)
         setNewFirstName(result[0].userFirstName);
         setNewLastName(result[0].userLastName);
+        setUserName(result[0].userName);
         setNewEmail(result[0].userEmail);
         setNewPhone(result[0].phoneNumber);
-        setNewImage(result[0].profileImageUrl);
-        setImagePreview(result[0].profileImageUrl); // Previsualizar la imagen existente
+        setNewRole(result[0].userRole);
+        setNewPassword(result[0].userPassword);
+        setNewImage(result[0].profileImageUrl); // Previsualizar la imagen existente
       } else {
         console.error("Error: el formato de la respuesta es incorrecto o está vacío.");
       }
@@ -54,13 +72,63 @@ function AccountTab() {
     }
   };
 
+
+
+  const data = {
+    userFirstName: newFirstName,
+    userLastName: newLastName,
+    userName: newUserName,
+    userEmail: newEmail,
+    userPassword: newPassword,
+    phoneNumber: newPhone,
+    userRole: newRole,
+    profileImageUrl: newImage,
+  }
+
   const updateInfo = () => {
-    try {
-      userUpdate(newFirstName, newLastName, newEmail, newPhone, imagePreview); // Asegúrate de incluir newImage
-    } catch (error) {
-      console.error(error);
+    try{
+      updateProfile(auth.currentUser, {
+        displayName: `${newFirstName} ${newLastName}`, photoURL: newImage
+      }).then(async () => {
+        updateEmail(auth.currentUser, newEmail).then(async() => {
+          MySwal.fire({
+            icon: "success",
+            title: "Datos personales actualizados",
+            showConfirmButton: true,
+          });
+          try {
+            const response = await fetch(`${import.meta.env.VITE_API_LINK}/users/put/${id}`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            });
+        
+            if (!response.ok) {
+              throw new Error('Error al enviar la solicitud PUT');
+            }
+        
+            // const responseData = await response.json()
+  
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        }).catch((error) => {
+          console.error(error)
+        });
+        
+      }).catch((error) => {
+        MySwal.fire({
+          icon: "error",
+          title: "Ha occurrido un error al actualizar los datos.",
+          showConfirmButton: true,
+        });
+      });
+    }catch (error){
+      console.error(error)
     }
-  };
+  }
 
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -80,7 +148,7 @@ function AccountTab() {
 
     // Previsualizar la imagen seleccionada
     const imageUrl = URL.createObjectURL(selectedImage);
-    setImagePreview(imageUrl);
+    setNewImage(imageUrl);
 
     const storageRef = ref(storage, `images/${selectedImage.name}`);
     const uploadTask = uploadBytesResumable(storageRef, selectedImage);
@@ -112,7 +180,7 @@ function AccountTab() {
     <>
       <div className="photoAvatarContainer">
         <div className="photoAvatar">
-          <img className="avatarImage" src={imagePreview} alt="Previsualización" /> {/* Usar la URL de previsualización */}
+          <img className="avatarImage" src={newImage} alt="Previsualización" />
           <div className="newPhoto">
             <div className="newPhotoInput">
               <Button
@@ -128,12 +196,14 @@ function AccountTab() {
                   backgroundColor: '#9155FD',
                   '&:hover': { backgroundColor: '#fd7e14' },
                   color: 'white',
+                  // width: '100%',
+                  // marginRight: '2%'
                 }}
               >
                 Cargar Imagen
                 <VisuallyHiddenInput type="file" onChange={handleImageChange} />
               </Button>
-              <Button variant="outlined" color="error">Restaurar</Button>
+              {/* <Button variant="outlined" color="error" >Restaurar</Button> */}
             </div>
             <div className="newPhotoInputLabel">
               Allowed PNG or JPEG. Max size of 800K.
@@ -141,7 +211,7 @@ function AccountTab() {
           </div>
         </div>
         <div className="formAccount">
-          <Box component="form" sx={{ '& .MuiTextField-root': { m: 1, width: '50ch' } }} noValidate autoComplete="off">
+          <Box component="form" sx={{ '& .MuiTextField-root': { m: 1, width: '60%' } }} noValidate autoComplete="off">
             <TextField
               label="Nombre(s)"
               value={newFirstName}
@@ -177,12 +247,13 @@ function AccountTab() {
                 backgroundColor: '#9155FD',
                 '&:hover': { backgroundColor: '#fd7e14' },
                 color: 'white',
+                width: '100%',
               }}
               onClick={updateInfo}
             >
               Guardar Cambios
             </Button>
-            <Button variant="outlined" color="error">Restaurar</Button>
+            <Button variant="outlined" color="error" onClick={restaurar} sx={{marginLeft: '2%'}}>Restaurar</Button>
           </div>
         </div>
       </div>

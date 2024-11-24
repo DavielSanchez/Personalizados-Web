@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -7,15 +7,38 @@ import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-// import Visibility from '@mui/icons-material/Visibility';
-// import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import FormControl from '@mui/material/FormControl';
+import { getAuth, updatePassword } from "firebase/auth";
+import { getUserIdFromStorage } from '../FireBaseConfig/authService';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 function SecurityTab() {
 
+  const MySwal = withReactContent(Swal)
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+
     const [showPassword, setShowPassword] = useState();
+    const [showPasswordAgain, setShowPasswordAgain] = useState();
+    const [password, setPassword] = useState('')
+    const [passwordAgain, setPasswordAgain] = useState('')
+    const [UID, setUID] = useState('')
+
+    useEffect(() => {
+      const savedUserId = getUserIdFromStorage();
+      if (savedUserId) {
+        setUID(savedUserId);
+      } else {
+        console.error("No se encontró el UID.");
+      }
+    }, []);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleClickShowPasswordAgain = () => setShowPasswordAgain((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -25,10 +48,55 @@ function SecurityTab() {
     event.preventDefault();
   };
 
+  const data = {
+    userPassword: password,
+  }
+
+  const validatePassword = () => {
+    if (password === passwordAgain && password != '') {
+      updatePassword(user, password).then(async () => {
+        MySwal.fire({
+          icon: "success",
+          title: "Contraseña actualizada",
+          showConfirmButton: true,
+        });
+
+        try {
+          const response = await fetch(`${import.meta.env.VITE_API_LINK}/users/put/password/${UID}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+      
+          if (!response.ok) {
+            throw new Error('Error al enviar la solicitud PUT');
+          }
+      
+          // const responseData = await response.json();
+
+        } catch (error) {
+          console.error('Error:', error);
+        }
+
+      }).catch((error) => {
+        MySwal.fire({
+          icon: "error",
+          title: "Ha ocurrido un error",
+          showConfirmButton: true,
+        });
+      });
+    }
+  }
+
 
   return (
     <>
     <div className="securityTabContainer">
+    <div className="svgContainer">
+        <img src="https://firebasestorage.googleapis.com/v0/b/personalizados-api.appspot.com/o/images%2Fauthentication-2-99.svg?alt=media&token=a7fe2ca7-aac4-4c3c-b1c2-0dfe0a510a34" alt="" />
+    </div>
     <div className="photoAvatarContainer">
         <div className="formAccount">
         <Box
@@ -41,7 +109,7 @@ function SecurityTab() {
   noValidate
 >
           <FormControl sx={{ m: 1, width: '50ch' }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">Nueva Contraseña</InputLabel>
+          <InputLabel htmlFor="outlined-adornment">Nueva Contraseña</InputLabel>
           <OutlinedInput
             id="outlined-helperText"
             type={showPassword ? 'text' : 'password'}
@@ -54,35 +122,35 @@ function SecurityTab() {
                   onMouseUp={handleMouseUpPassword}
                   edge="end"
                 >
-                  {/* {showPassword ? <VisibilityOff /> : <Visibility />} */}
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             }
             label="Nueva Contraseña"
+            onChange={(e) => setPassword(e.target.value)}
           />
-
-          
-
         </FormControl>
+
         <FormControl sx={{ m: 1, width: '50ch' }} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Repetir Contraseña</InputLabel>
           <OutlinedInput
             id="outlined-helperText"
-            type={showPassword ? 'text' : 'password'}
+            type={showPasswordAgain ? 'text' : 'password'}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
+                  onClick={handleClickShowPasswordAgain}
                   onMouseDown={handleMouseDownPassword}
                   onMouseUp={handleMouseUpPassword}
                   edge="end"
                 >
-                  {/* {showPassword ? <VisibilityOff /> : <Visibility />} */}
+                  {showPasswordAgain ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             }
             label="Repetir Contraseña"
+            onChange={(e) => setPasswordAgain(e.target.value)}
           />
 
           
@@ -110,14 +178,12 @@ function SecurityTab() {
                             },
                             color: 'white', // Color del texto
                         }}
+                        onClick={validatePassword}
                         >
                         Confirmar
                     </Button>
                 </div>
         </div>
-    </div>
-    <div className="svgContainer">
-        <img src="https://firebasestorage.googleapis.com/v0/b/personalizados-api.appspot.com/o/images%2Fauthentication-2-99.svg?alt=media&token=a7fe2ca7-aac4-4c3c-b1c2-0dfe0a510a34" alt="" />
     </div>
     </div>
     </>
