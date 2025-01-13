@@ -1,28 +1,50 @@
 
-function Navigation() {
+
+function Navigation({onSentPage, hasMore, current}) {
+
+  console.log(onSentPage)
+
+  const handlePrevious = () => {
+    if (current > 1) {
+      let Page = current - 1;
+      onSentPage(Page);
+    }
+};
+
+const handleNext = () => {
+    if (hasMore) {
+      let Page = current + 1;
+      onSentPage(Page);
+    }
+};
+
   return (
     <>
     <div className="col-12 pb-1">
                         <nav aria-label="Page navigation">
-                          <ul className="pagination justify-content-center mb-3">
-                            <li className="page-item">
-                              <a className="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                                <span className="sr-only">Previous</span>
-                              </a>
+                        <ul className="pagination justify-content-center">
+                            <li className={`page-item ${current === 1 ? 'disabled' : ''}`}>
+                              <a className="page-link" onClick={handlePrevious}>Previous</a>
                             </li>
-                            <li className="page-item"><a className="page-link" href="#">1</a></li>
-                            <li className="page-item"><a className="page-link" href="#">2</a></li>
-                            <li className="page-item"><a className="page-link" href="#">3</a></li>
-                            <li className="page-item">
-                              <a className="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                                <span className="sr-only">Next</span>
-                              </a>
+                            <li className="page-item"><a className="page-link">{current}</a></li>
+                            <li className={`page-item ${!hasMore ? 'disabled' : ''}`}>
+                              <a className="page-link" onClick={handleNext}>Next</a>
                             </li>
                           </ul>
                         </nav>
                     </div>
+
+                    {/* <nav aria-label="Page navigation example">
+                                    <ul className="pagination justify-content-center">
+                                        <li className={`page-item ${current === 1 ? 'disabled' : ''}`}>
+                                            <a className="page-link" onClick={handlePrevious}>Previous</a>
+                                        </li>
+                                        <li className="page-item"><a className="page-link">{current}</a></li>
+                                        <li className={`page-item ${!hasMore ? 'disabled' : ''}`}>
+                                            <a className="page-link" onClick={handleNext}>Next</a>
+                                        </li>
+                                    </ul>
+                                </nav> */}
     </>
   )
 }

@@ -181,7 +181,10 @@ function OfferProducts() {
                     </div>
                     <div className="card-footer d-flex justify-content-center bg-light border">
                     <Link 
-                    to="/product" 
+                    to={{
+                      pathname: `/product/${P._id}`,
+                      hash: '#search',
+                  }} 
                     className="btn btn-sm text-dark p-0" 
                     state={{ productId: P._id }}>
                         <i className="fas fa-eye text-primary mr-1" ></i>View Details

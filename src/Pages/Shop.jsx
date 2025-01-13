@@ -16,7 +16,7 @@ function Shop() {
     <Banner Current="Nuestra Tienda" Back="Home" BackHref="/"/>
     <div className="container-fluid pt-5">
         <div className="row px-xl-5">
-            <FilterList/>
+            {/* <FilterList/> */}
             <ShopProducts/>
         </div>
     </div>

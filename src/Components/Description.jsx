@@ -8,12 +8,12 @@ import { es } from 'date-fns/locale';
 
 function Description(P) {
     const [data, setData] = useState([]);
+    console.log(P.productId)
     const [reviews, setReviews] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [hasMoreReviews, setHasMoreReviews] = useState(true);  // Nuevo estado
-    const ID = P.productId;
-    const url = `${import.meta.env.VITE_API_LINK}/products/id/${ID.productId}`;
-    const urlReview = `${import.meta.env.VITE_API_LINK}/reviews/${ID.productId}?limit=3&page=${currentPage}`;
+    const [hasMoreReviews, setHasMoreReviews] = useState(true);
+    const url = `${import.meta.env.VITE_API_LINK}/products/id/${P.productId}`;
+    const urlReview = `${import.meta.env.VITE_API_LINK}/reviews/${P.productId}?limit=3&page=${currentPage}`;
 
     useEffect(() => {
         fetchData();
@@ -72,7 +72,7 @@ function Description(P) {
                                     reviews.map((rev) => (
                                         <div className="media mb-4" key={rev.id}>
                                             <img
-                                                src="img/cat-1.jpg"
+                                                src="../../public/img/Avatar.jpg"
                                                 alt="Image"
                                                 className="img-fluid mr-3 mt-1"
                                                 style={{ width: '45px' }}

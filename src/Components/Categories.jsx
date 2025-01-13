@@ -37,9 +37,9 @@ function Categories() {
   };
 
   // Función para contar los productos por categoría
-  const getProductsCountByCategory = (categoryTag) => {
-    return Productdata.filter((product) => product.productCategory === categoryTag).length;
-  };
+  // const getProductsCountByCategory = (categoryTag) => {
+  //   return Object.Productdata.filter((product) => product.productCategory === categoryTag).length;
+  // };
 
   if (data.length === 0) {
     return (
@@ -76,11 +76,11 @@ function Categories() {
           {data.map((P) => (
             <div className="col-lg-4 col-md-6 pb-1" key={P._id}>
               <div className="cat-item d-flex flex-column border mb-4" style={{ padding: "30px" }}>
-                <p className="text-right">
+                {/* <p className="text-right">
                   ({getProductsCountByCategory(P._id)}) Productos
-                </p>
+                </p> */}
                 <Link
-                  to={{ pathname: `/category/${P.categoryTag}` }}
+                  to={{ pathname: `/category/${P.categoryTag}`,hash: '#banner' }}
                   className="cat-img position-relative overflow-hidden mb-3"
                   state={{ Current: P.categoryName, categoryId: P._id }}
                 >

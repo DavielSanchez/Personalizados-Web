@@ -144,7 +144,10 @@ function Product_Card(P) {
                 </div>
                 <div className="card-footer d-flex justify-content-between bg-light border">
                     <Link 
-                    to="/product" 
+                    to={{
+                        pathname: `/product/${P.ID}`,
+                        hash: '#search',
+                    }} 
                     className="btn btn-sm text-dark p-0" 
                     state={{ productId: P.ID, userId: userId }}>
                         <i className="fas fa-eye text-primary mr-1" ></i>View Details
@@ -177,7 +180,10 @@ function Product_Card(P) {
                 </div>
                 <div className="card-footer d-flex justify-content-between bg-light border">
                     <Link 
-                    to="/product" 
+                    to={{
+                        pathname: `/product/${P.ID}`,
+                        hash: '#search',
+                    }} 
                     className="btn btn-sm text-dark p-0" 
                     state={{ productId: P.ID, userId: userId }}>
                         <i className="fas fa-eye text-primary mr-1" ></i>View Details

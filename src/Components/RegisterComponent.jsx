@@ -88,7 +88,7 @@ function Register() {
       // });
       
       try {
-        const response = await fetch('http://localhost:3000/users/add', {
+        const response = await fetch(`${import.meta.env.VITE_API_LINK}/users/add`, {
           method: 'POST', // Especificar el método POST
           headers: {
             'Content-Type': 'application/json', // Especificar el tipo de contenido

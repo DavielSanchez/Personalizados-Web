@@ -93,8 +93,8 @@ function Search() {
 
   return (
     <>
-    <div className="row align-items-center py-3 px-xl-5">
-            <div className="col-lg-3 d-none d-lg-block">
+    <div className="row align-items-center py-3 px-xl-5 d-flex justify-content-between" id='search'>
+            <div className="col-lg-3 d-none d-lg-block ">
                 <a href="/" className="text-decoration-none">
                     <h1 className="m-0 display-5 font-weight-semi-bold"><span className="text-primary font-weight-bold border px-3 mr-1">
                         {/* <img src="../../public/img/Logo.png" className='image-fluid' alt="" width={'50px'}/> */}
@@ -102,7 +102,7 @@ function Search() {
                     </span>Shop</h1>
                 </a>
             </div>
-            <div className="col-lg-6 col-6 text-left">
+            {/* <div className="col-lg-6 col-6 text-left">
                 <form action="">
                     <div className="input-group">
                         <input type="text" className="form-control" placeholder="Search for products"/>
@@ -113,7 +113,7 @@ function Search() {
                         </div>
                     </div>
                 </form>
-            </div>
+            </div> */}
             <div className="col-lg-3 col-6 text-right">
             <Link
                   to={{ pathname: `/shoppingcart`}}

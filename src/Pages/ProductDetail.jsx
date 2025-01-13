@@ -9,14 +9,23 @@ import Footer from "../Components/Footer";
 
 function ProductDetail() {
   const location = useLocation();
-  const {productId, userId} = location.state; // Asegúrate de que esto contiene el ID correcto
+  const {productId, userId} = location.state;
   
   const [data, setData] = useState([]);
   const url = `${import.meta.env.VITE_API_LINK}/products/${productId}`;
 
   useEffect(() => {
       fetchData();
-  }, [productId]); // Añadir productId como dependencia
+  }, [productId]);
+
+  useEffect(() => {
+    if (location.hash) {
+        const element = document.querySelector(location.hash);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+}, [location.hash]);
 
   const fetchData = async () => {
       try {
@@ -33,7 +42,7 @@ function ProductDetail() {
       <title>{data.productName}</title>
       <TopBar />
       <NavBar />
-      <div className="row px-xl-5">
+      <div className="row px-xl-5" id="productcarousel">
           <Product_Detail_Carousel images={data.productImages} /> {/* Aquí se pasa correctamente la prop */}
           <Product_Detail_Info productId={productId} userId={userId} />
       </div>
