@@ -76,7 +76,7 @@ function Register() {
 
   writeUserData(userFirstName, userLastName, userName, userPassword, userEmail, phoneNumber, userRegistrationDate, lastLogin, userRole, userAccountStatus, profileImageUrl, firebaseUID)
 
-      window.location.replace("/");
+      
 
 
       // 2. Guardar el username y otros datos en Firestore
@@ -89,21 +89,24 @@ function Register() {
       
       try {
         const response = await fetch(`${import.meta.env.VITE_API_LINK}/users/add`, {
-          method: 'POST', // Especificar el método POST
+          method: 'POST',
           headers: {
-            'Content-Type': 'application/json', // Especificar el tipo de contenido
+            'Content-Type': 'application/json', 
           },
-          body: JSON.stringify(data), // Convertir los datos a formato JSON
+          body: JSON.stringify(data), 
         });
   
         if (!response.ok) {
+          console.log(data)
           throw new Error('Error al enviar el post');
         }
   
-        const responseData  = await response.json(); // Obtener la respuesta en formato JSON
+        const responseData  = await response.json();
+        console.log(data)
         console.log('Post creado:', responseData );
-        // Puedes actualizar el estado o mostrar un mensaje de éxito aquí
+        window.location.replace("/");
       } catch (error) {
+        console.log(data)
         console.error('Error:', error);
       }
 

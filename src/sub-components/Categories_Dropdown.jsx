@@ -48,23 +48,3 @@ function Categories_Dropdown() {
 }
 
 export default Categories_Dropdown
-
-
-{/* <Link to={{pathname: "/category/camisetas"}} className="nav-item nav-link"
-state={{ Current: "Camisetas", }}>Camisetas</Link>
-<Link to="/category/hoddies" className="nav-item nav-link"
-state={{Current: 'Hoddies'}}>Hoddies</Link>
-<Link to="/category/tazas" className="nav-item nav-link"
-state={{Current: 'Tazas'}}>Tazas</Link>
-<Link to="/category/vasos" className="nav-item nav-link"
-state={{Current: 'Vasos'}}>Vasos</Link>
-<Link to="/category/termos" className="nav-item nav-link"
-state={{Current: 'Termos'}}>Termos</Link>
-<Link to="/category/textiles" className="nav-item nav-link"
-state={{Current: 'Textiles'}}>Textiles</Link>
-<Link to="/category/llaveros" className="nav-item nav-link"
-state={{Current: 'Llaveros'}}>Llaveros</Link>
-<Link to="/category/mousepads" className="nav-item nav-link"
-state={{Current: 'Mouse Pads'}}>Mouse Pads</Link>
-<Link to="/category/extras" className="nav-item nav-link"
-state={{Current: 'Extras'}}>Extras</Link> */}

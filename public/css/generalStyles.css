@@ -10043,3 +10043,27 @@ input[type=number]::-webkit-outer-spin-button {
         justify-content: center;
     }
 }
+
+.container-fluid {
+    overflow: hidden;
+    /* Por defecto, sin scroll */
+}
+
+.vendor-item {
+    overflow-y: auto;
+    /* Permite scroll vertical */
+    max-height: 300px;
+    /* Ajusta el máximo alto según lo necesario */
+}
+
+
+/* Media query para pantallas más pequeñas */
+
+@media (max-width: 768px) {
+    .vendor-item {
+        overflow-y: scroll;
+        /* Habilita scroll vertical */
+        max-height: 200px;
+        /* Reduce el tamaño del contenedor si es necesario */
+    }
+}

@@ -26,6 +26,7 @@ function Product_Detail_Info(P) {
     // const [productPrice, setProductPrice] = useState();
 
     useEffect(() => {
+        console.log(P.userId)
             const auth = getAuth();
             const unsubscribe = auth.onAuthStateChanged(async (user) => {
                 if (user) {
@@ -101,11 +102,8 @@ function Product_Detail_Info(P) {
                     });
 
                     if (!response.ok) {
-                        console.log(P.userId)
                         throw new Error('Error al enviar el post');
                     }
-                    console.log(P.userId)
-                    console.log(dataProduct)
                     const responseData  = await response.json();
         
                     MySwal.fire({

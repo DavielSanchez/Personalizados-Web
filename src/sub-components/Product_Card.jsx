@@ -43,9 +43,9 @@ function Product_Card(P) {
         }
     }, [uid]);
     
-    const fetchUserData = async (userId) => {
+    const fetchUserData = async (uid) => {
         try {
-            const urlUser = `${import.meta.env.VITE_API_LINK}/user/uid/${userId}`;
+            const urlUser = `${import.meta.env.VITE_API_LINK}/user/uid/${uid}`;
             const response = await fetch(urlUser);
     
             if (!response.ok) {
