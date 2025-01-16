@@ -12,7 +12,7 @@ function ShopProducts() {
     const [debounceTimeout, setDebounceTimeout] = useState(null);
     const [query, setQuery] = useState('')
     const [filter, setFilter] = useState('')
-    const [limit, setLimit] = useState(6);
+    const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
     const [url, setUrl] = useState(`${import.meta.env.VITE_API_LINK}/products?priceRange=${filter}&limit=${limit}&page=${page}`)
     const baseUrl = `${import.meta.env.VITE_API_LINK}/products?priceRange=${filter}`
@@ -22,17 +22,17 @@ function ShopProducts() {
         if (debounceTimeout) clearTimeout(debounceTimeout);
     
         const timeout = setTimeout(() => {
-          if (!query.trim()) {
-            setUrl(baseUrl);
-          } else {
-            setUrl(`${import.meta.env.VITE_API_LINK}/products/${query}?priceRange=${filter}`);
-          }
+            const newUrl = query.trim()
+                ? `${import.meta.env.VITE_API_LINK}/products/${query}?priceRange=${filter}&limit=${limit}&page=${page}`
+                : `${baseUrl}&limit=${limit}&page=${page}`;
+            console.log("Updating URL to:", newUrl);
+            setUrl(newUrl);
         }, 100);
     
         setDebounceTimeout(timeout);
     
         return () => clearTimeout(timeout);
-      }, [query, filter, page]);
+    }, [query, filter, page]);
 
       const handleSearchResults = (results) => {
         setQuery(results);
@@ -42,21 +42,23 @@ function ShopProducts() {
         setFilter(value);
       };
 
-      const handlePagination = (results) => {
-        setPage(results)
-      }
+      const handlePagination = (newPage) => {
+        setPage(newPage);
+    };
 
     useEffect(() => {
         fetchData();
-    }, [url]);
+    }, [url, page]);
 
     const fetchData = async () => {
         try{
             const response = await fetch(url)
             const result = await response.json()
             setData(result.docs || result)
+            setHasMoreProducts(result.hasNextPage || (result.docs && result.docs.length === limit));
         }
         catch (error){
+            setHasMoreProducts(false);
             // console.error(error)
         }
     }
@@ -75,23 +77,23 @@ function ShopProducts() {
                 </div>
                 <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                     <input type="checkbox" className="custom-control-input" id="price-1" checked={filter === "0-100"} onChange={() => handleCheckboxChange("0-100")}/>
-                    <label className="custom-control-label" htmlFor="price-1">$0 - $100</label>
+                    <label className="custom-control-label" htmlFor="price-1">RD$0 - RD$100</label>
                 </div>
                 <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                     <input type="checkbox" className="custom-control-input" id="price-2" checked={filter === "100-400"} onChange={() => handleCheckboxChange("100-400")}/>
-                    <label className="custom-control-label" htmlFor="price-2">$100 - $400</label>
+                    <label className="custom-control-label" htmlFor="price-2">RD$100 - RD$400</label>
                 </div>
                 <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                     <input type="checkbox" className="custom-control-input" id="price-3" checked={filter === "400-600"} onChange={() => handleCheckboxChange("400-600")}/>
-                    <label className="custom-control-label" htmlFor="price-3">$400 - $600</label>
+                    <label className="custom-control-label" htmlFor="price-3">RD$400 - RD$600</label>
                 </div>
                 <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                     <input type="checkbox" className="custom-control-input" id="price-4" checked={filter === "600-1000"} onChange={() => handleCheckboxChange("600-1000")}/>
-                    <label className="custom-control-label" htmlFor="price-4">$600 - $1000</label>
+                    <label className="custom-control-label" htmlFor="price-4">RD$600 - RD$1000</label>
                 </div>
                 <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between">
                     <input type="checkbox" className="custom-control-input" id="price-5" checked={filter === "1000-2000"} onChange={() => handleCheckboxChange("1000-2000")}/>
-                    <label className="custom-control-label" htmlFor="price-5">$1000 - $2000</label>
+                    <label className="custom-control-label" htmlFor="price-5">RD$1000 - RD$2000</label>
                     {/* <span className="badge font-weight-normal text-black">168</span> */}
                 </div>
             </form>

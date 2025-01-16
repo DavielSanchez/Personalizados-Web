@@ -5,15 +5,13 @@ function Navigation({onSentPage, hasMore, current}) {
 
   const handlePrevious = () => {
     if (current > 1) {
-      let Page = current - 1;
-      onSentPage(Page);
+        onSentPage(current - 1);
     }
 };
 
 const handleNext = () => {
     if (hasMore) {
-      let Page = current + 1;
-      onSentPage(Page);
+        onSentPage(current + 1);
     }
 };
 
@@ -26,7 +24,7 @@ const handleNext = () => {
                               <a className="page-link" onClick={handlePrevious}>Previous</a>
                             </li>
                             <li className="page-item"><a className="page-link">{current}</a></li>
-                            <li className={`page-item ${current === 1 ? 'disabled' : ''}`}>
+                            <li className={`page-item ${!hasMore ? 'disabled' : ''}`}>
                               <a className="page-link" onClick={handleNext}>Next</a>
                             </li>
                           </ul>

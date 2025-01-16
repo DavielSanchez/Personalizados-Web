@@ -53,6 +53,7 @@ function AccountTab() {
     try {
       const response = await fetch(url);
       const result = await response.json();
+      console.log(result)
 
       if (result && result.length > 0) {
         setId(result[0]._id)

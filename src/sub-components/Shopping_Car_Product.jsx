@@ -156,7 +156,7 @@ function Shopping_Car_Product({ product, userId, onProductRemove }) {
                 {product.productName}
                 </Link>
               </td>
-              <td className="align-middle">${price}</td>
+              <td className="align-middle">RD${price}</td>
               <td className="align-middle">
                 <div className="input-group quantity mx-auto" style={{ width: "100px" }}>
                   <div className="input-group-btn">
@@ -183,7 +183,7 @@ function Shopping_Car_Product({ product, userId, onProductRemove }) {
                   </div>
                 </div>
               </td>
-              <td className="align-middle">${price * quantity}</td>
+              <td className="align-middle">RD${price * quantity}</td>
               <td className="align-middle">
                 <button className="btn btn-sm btn-primary" onClick={removeProductFromCart}>
                   <i className="fa fa-times"></i>
@@ -207,7 +207,7 @@ function Shopping_Car_Product({ product, userId, onProductRemove }) {
         {product.productName}
         </Link>
       </td>
-      <td className="align-middle">${price}</td>
+      <td className="align-middle">RD${price}</td>
       <td className="align-middle">
         <div className="input-group quantity mx-auto" style={{ width: "100px" }}>
           <div className="input-group-btn">
@@ -234,7 +234,7 @@ function Shopping_Car_Product({ product, userId, onProductRemove }) {
           </div>
         </div>
       </td>
-      <td className="align-middle">${price * quantity}</td>
+      <td className="align-middle">RD${price * quantity}</td>
       <td className="align-middle">
         <button className="btn btn-sm btn-primary" onClick={removeProductFromCart}>
           <i className="fa fa-times"></i>
