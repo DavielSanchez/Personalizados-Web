@@ -42,14 +42,14 @@ function ShoppingCar() {
     }, [uid]);
 
     useEffect(() => {
-        if (userId) {
+        if (uid) {
             fetchCartData();
         }
-    }, [userId]);
+    }, [dataCart, dataUser]);
 
-    const fetchUserData = async (userUid) => {
+    const fetchUserData = async (uid) => {
         try {
-            const urlUser = `${import.meta.env.VITE_API_LINK}/user/uid/${userUid}`;
+            const urlUser = `${import.meta.env.VITE_API_LINK}/user/uid/${uid}`;
             const response = await fetch(urlUser);
 
             if (!response.ok) {
@@ -62,18 +62,18 @@ function ShoppingCar() {
                 setDataUser(result);
                 setUserId(result[0]._id);
             } else {
-                // console.error("La API no devolvió datos válidos.");
+                console.error("La API no devolvió datos válidos.");
             }
         } catch (error) {
-            // console.error("Error al obtener los datos del usuario:", error);
+            console.error("Error al obtener los datos del usuario:", error);
         } finally {
             setIsLoading(false);
         }
     };
 
     const fetchCartData = async () => {
-        if (!userId) {
-            // console.error("userId no está definido");
+        if (!uid) {
+            console.error("userId no está definido");
             return;
         }
     
@@ -82,11 +82,11 @@ function ShoppingCar() {
             const response = await fetch(urlShoppingCart);
     
             if (!response.ok) {
+                console.log(urlShoppingCart)
                 throw new Error(`Error en la solicitud: ${response.statusText}`);
             }
     
             const result = await response.json();
-            // console.log("Respuesta de la API:", result);
     
             if (Array.isArray(result) && result.length > 0) {
                 const cartData = result[0];
@@ -94,15 +94,15 @@ function ShoppingCar() {
                     setDataCart(cartData);
                     setNumberOfProducts(cartData.numberOfProducts || 0);
                 } else {
-                    // console.error("La propiedad 'products' no es válida.");
+                    console.error("La propiedad 'products' no es válida.");
                     setDataCart({ products: [] });
                 }
             } else {
-                // console.error("La estructura de datos no coincide con lo esperado.");
+                console.error("La estructura de datos no coincide con lo esperado.");
                 setDataCart({ products: [] });
             }
         } catch (error) {
-            // console.error("Error al obtener los datos del carrito:", error);
+            console.error("Error al obtener los datos del carrito:", error);
             setDataCart({ products: [] });
         }
     };

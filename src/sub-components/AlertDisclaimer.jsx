@@ -22,7 +22,7 @@ function AlertDisclaimer() {
                 <ol className="text-primary">
                     <li>Proceso de pago (demo).</li>
                 </ol>
-                <code className="text-danger">V1.2</code>
+                <code className="text-danger">V1.8</code>
           </div>
         </div>
       </div>

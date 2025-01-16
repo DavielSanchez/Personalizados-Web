@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2'
+import { getAuth } from "firebase/auth";
 import withReactContent from 'sweetalert2-react-content'
 
 function Product_Detail_Info(P) {
@@ -15,6 +16,7 @@ function Product_Detail_Info(P) {
 
     const [data, setData] = useState([])
     const [userId, setUserId] = useState(P.userId);
+    const [uid, setUid] = useState(null);
     // const [productId, setProductId] = useState();
     const [productName, setProductName] = useState(data.productName);
     const [productColor, setProductColor] = useState(null);
@@ -23,12 +25,26 @@ function Product_Detail_Info(P) {
     const [productQuantity, setProductQuantity] = useState(quantity);
     // const [productPrice, setProductPrice] = useState();
 
+    useEffect(() => {
+            const auth = getAuth();
+            const unsubscribe = auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    setUid(user.uid);
+                } else {
+                    // console.error("No se encontró un usuario autenticado.");
+                    setIsLoading(false);
+                }
+            });
+    
+            return () => unsubscribe();
+        }, []);
+
 
     const url = `${import.meta.env.VITE_API_LINK}/products/id/${productId}`
 
     useEffect(() => {
         fetchData();
-        console.log(data)
+        // console.log(data)
     }, []);
 
     const fetchData = async () => {
@@ -59,12 +75,12 @@ function Product_Detail_Info(P) {
       };
 
       const dataProduct = {
-        userId: userId,
+        userId: P.userId,
         productId: data._id,
         productName: data.productName,
-        productColor: productColor,
+        productColor: productColor || 'N/A',
         productImage: data.productMainImage,
-        productSize: productSize,
+        productSize: productSize || 'N/A',
         productQuantity: quantity,
         productPrice: data.productPrice,
     };
@@ -73,9 +89,7 @@ function Product_Detail_Info(P) {
 
         e.preventDefault();
 
-        console.log(productName)
-
-        if (userId != null) {
+        if (P.userId != null) {
             if (productColor != null) {
                 try {
                     const response = await fetch(`${import.meta.env.VITE_API_LINK}/cart/add`, {
@@ -85,15 +99,14 @@ function Product_Detail_Info(P) {
                         },
                         body: JSON.stringify(dataProduct), 
                     });
-                
+
                     if (!response.ok) {
+                        console.log(P.userId)
                         throw new Error('Error al enviar el post');
-                        console.log(Error)
                     }
-                
-                    const responseData  = await response.json(); 
-                    console.log(responseData)
-                    console.log(quantity)
+                    console.log(P.userId)
+                    console.log(dataProduct)
+                    const responseData  = await response.json();
         
                     MySwal.fire({
                         icon: "success",

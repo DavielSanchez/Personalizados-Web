@@ -16,7 +16,7 @@ function Product_Card(P) {
     const [productSize, setProductSize] = useState(P.Size);
     const [productQuantity, setProductQuantity] = useState(P.Quantity);
     const [productPrice, setProductPrice] = useState(P.Price);
-    const [productDiscount, setProductDiscount] = useState(P.Discount)
+    const [productDiscount, setProductDiscount] = useState(P.Discount);
 
     const [isLoading, setIsLoading] = useState(true);
     const [uid, setUid] = useState(null);
@@ -43,9 +43,9 @@ function Product_Card(P) {
         }
     }, [uid]);
     
-    const fetchUserData = async (userUid) => {
+    const fetchUserData = async (userId) => {
         try {
-            const urlUser = `${import.meta.env.VITE_API_LINK}/user/uid/${userUid}`;
+            const urlUser = `${import.meta.env.VITE_API_LINK}/user/uid/${userId}`;
             const response = await fetch(urlUser);
     
             if (!response.ok) {
@@ -55,16 +55,24 @@ function Product_Card(P) {
             const result = await response.json();
     
             if (Array.isArray(result) && result.length > 0) {
+                // console.log('ID del usuario recibido:', result[0]._id);
                 setUserId(result[0]._id);
             } else {
+                console.log('No se encontró el usuario');
             }
         } catch (error) {
+            console.error('Error al obtener los datos del usuario:', error);
         } finally {
             setIsLoading(false);  
         }
     };
 
+    // useEffect para monitorear los cambios en userId
+    useEffect(() => {
+        // console.log('UserId actualizado:', userId);
+    }, [userId]); 
 
+    
 
 
     if (P.Offer === true) {
@@ -94,8 +102,9 @@ function Product_Card(P) {
     const addToCart = async (e) => {
 
         e.preventDefault();
+        // console.log(uid)
 
-        if (userId != null) {
+        if (uid != null) {
             try {
             const response = await fetch(`${import.meta.env.VITE_API_LINK}/cart/add`, {
                 method: 'POST',

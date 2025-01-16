@@ -100,8 +100,8 @@ function Register() {
           throw new Error('Error al enviar el post');
         }
   
-      //   const responseData  = await response.json(); // Obtener la respuesta en formato JSON
-      //   console.log('Post creado:', responseData );
+        const responseData  = await response.json(); // Obtener la respuesta en formato JSON
+        console.log('Post creado:', responseData );
         // Puedes actualizar el estado o mostrar un mensaje de éxito aquí
       } catch (error) {
         console.error('Error:', error);

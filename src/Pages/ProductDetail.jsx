@@ -13,6 +13,7 @@ function ProductDetail() {
   
   const [data, setData] = useState([]);
   const url = `${import.meta.env.VITE_API_LINK}/products/${productId}`;
+  // console.log(productId)
 
   useEffect(() => {
       fetchData();

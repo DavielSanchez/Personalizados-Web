@@ -32,7 +32,7 @@ function Search() {
             fetchUserData(uid);
         }
     }, [uid]);
-
+    
     useEffect(() => {
         if (userId) {
             fetchCartData();
@@ -43,7 +43,7 @@ function Search() {
         try {
             const urlUser = `${import.meta.env.VITE_API_LINK}/user/uid/${userUid}`;
             const response = await fetch(urlUser);
-            
+    
             if (!response.ok) {
                 throw new Error(`Error en la solicitud: ${response.statusText}`);
             }
@@ -52,26 +52,23 @@ function Search() {
     
             if (Array.isArray(result) && result.length > 0) {
                 setDataUser(result);
-                setUserId(result[0]._id);  // Aquí es donde se establece userId
-            } else {
-                console.error("La API no devolvió datos válidos.");
+                setUserId(result[0]._id); // Aquí es donde se establece userId
             }
         } catch (error) {
-            console.error("Error al obtener los datos del usuario:", error);
-        } finally {
-            setIsLoading(false); // Finaliza la carga
+            console.error(`Error al obtener datos del usuario con UID ${userUid}:`, error);
         }
     };
-
+    
     const fetchCartData = async () => {
         if (!userId) {
             console.error("userId no está definido");
-            return;  // No hacer la solicitud si userId es nulo o indefinido
+            return; // No hacer la solicitud si userId es nulo o indefinido
         }
-        
+    
         try {
             const urlShoppingCart = `${import.meta.env.VITE_API_LINK}/cart/${userId}`;
             const response = await fetch(urlShoppingCart);
+    
             if (!response.ok) {
                 throw new Error(`Error en la solicitud: ${response.statusText}`);
             }
@@ -79,17 +76,12 @@ function Search() {
             const result = await response.json();
             if (Array.isArray(result) && result.length > 0) {
                 setDataCart(result);
-                setNumberOfProducts(result[0].numberOfProducts)
-            } else {
-                console.error("La API no devolvió datos válidos.");
+                setNumberOfProducts(result[0].numberOfProducts);
             }
         } catch (error) {
-            console.error(error);
+            console.error(`Error al obtener carrito del usuario con ID ${userId}:`, error);
         }
-    }
-
-    
-    
+    };
 
   return (
     <>
@@ -102,22 +94,11 @@ function Search() {
                     </span>Shop</h1>
                 </a>
             </div>
-            {/* <div className="col-lg-6 col-6 text-left">
-                <form action="">
-                    <div className="input-group">
-                        <input type="text" className="form-control" placeholder="Search for products"/>
-                        <div className="input-group-append">
-                            <span className="input-group-text bg-transparent text-primary">
-                                <i className="fa fa-search"></i>
-                            </span>
-                        </div>
-                    </div>
-                </form>
-            </div> */}
-            <div className="col-lg-3 col-6 text-right">
+            <div className="col-lg-3 col-12 text-right">
             <Link
                   to={{ pathname: `/shoppingcart`}}
                   state={{ userId: userId }}
+                  className='btn'
                 >
                   <Badge badgeContent={numberOfProducts} color="primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-cart3 text-primary" viewBox="0 0 16 16">

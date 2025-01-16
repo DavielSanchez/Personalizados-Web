@@ -2,7 +2,6 @@
 
 function Navigation({onSentPage, hasMore, current}) {
 
-  console.log(onSentPage)
 
   const handlePrevious = () => {
     if (current > 1) {
@@ -27,7 +26,7 @@ const handleNext = () => {
                               <a className="page-link" onClick={handlePrevious}>Previous</a>
                             </li>
                             <li className="page-item"><a className="page-link">{current}</a></li>
-                            <li className={`page-item ${!hasMore ? 'disabled' : ''}`}>
+                            <li className={`page-item ${current === 1 ? 'disabled' : ''}`}>
                               <a className="page-link" onClick={handleNext}>Next</a>
                             </li>
                           </ul>

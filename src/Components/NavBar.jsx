@@ -24,7 +24,7 @@ function NavBar() {
                         <div className="navbar-nav mr-auto py-0">
                             <Link to="/" className="nav-item nav-link ">Inicio</Link>
                             <Link to="/shop" className="nav-item nav-link">Tienda</Link>
-                            <Link to="/" className="nav-item nav-link">Contacto</Link>
+                            <Link to="#footer" className="nav-item nav-link">Contacto</Link>
                         </div>
                     </div>
                 </nav>

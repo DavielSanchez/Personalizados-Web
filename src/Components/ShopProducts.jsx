@@ -12,7 +12,7 @@ function ShopProducts() {
     const [debounceTimeout, setDebounceTimeout] = useState(null);
     const [query, setQuery] = useState('')
     const [filter, setFilter] = useState('')
-    const [limit, setLimit] = useState(15);
+    const [limit, setLimit] = useState(6);
     const [page, setPage] = useState(1);
     const [url, setUrl] = useState(`${import.meta.env.VITE_API_LINK}/products?priceRange=${filter}&limit=${limit}&page=${page}`)
     const baseUrl = `${import.meta.env.VITE_API_LINK}/products?priceRange=${filter}`
@@ -54,87 +54,13 @@ function ShopProducts() {
         try{
             const response = await fetch(url)
             const result = await response.json()
-            setData(result.docs)
-            setHasMoreProducts(result.docs.docs.length > 0);
+            setData(result.docs || result)
         }
         catch (error){
             // console.error(error)
         }
     }
 
-    // if (data.length === 0) {
-    //     return(
-    //         <>
-    //         <div className="col-lg-3 col-md-12">
-        
-    //     <div className="border-bottom mb-4 pb-4">
-    //         <h5 className="font-weight-semi-bold mb-4">Filter by price</h5>
-    //         <form>
-    //         <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-    //                 <input type="checkbox" className="custom-control-input" id="all-1"/>
-    //                 <label className="custom-control-label" htmlFor="all-1">All</label>
-    //                 <span className="badge font-weight-normal text-black">1000</span>
-    //             </div>
-    //             <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-    //                 <input type="checkbox" className="custom-control-input" id="price-1"/>
-    //                 <label className="custom-control-label" htmlFor="price-1">$0 - $100</label>
-    //                 <span className="badge font-weight-normal text-black">150</span>
-    //             </div>
-    //             <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-    //                 <input type="checkbox" className="custom-control-input" id="price-2"/>
-    //                 <label className="custom-control-label" htmlFor="price-2">$100 - $200</label>
-    //                 <span className="badge font-weight-normal text-black">295</span>
-    //             </div>
-    //             <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-    //                 <input type="checkbox" className="custom-control-input" id="price-3"/>
-    //                 <label className="custom-control-label" htmlFor="price-3">$200 - $300</label>
-    //                 <span className="badge font-weight-normal text-black">246</span>
-    //             </div>
-    //             <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-    //                 <input type="checkbox" className="custom-control-input" id="price-4"/>
-    //                 <label className="custom-control-label" htmlFor="price-4">$300 - $400</label>
-    //                 <span className="badge font-weight-normal text-black">145</span>
-    //             </div>
-    //             <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-    //                 <input type="checkbox" className="custom-control-input" id="price-5"/>
-    //                 <label className="custom-control-label" htmlFor="price-5">$400 - $500</label>
-    //                 <span className="badge font-weight-normal text-black">168</span>
-    //             </div>
-    //         </form>
-    //     </div>
-    //     </div>
-    //         <div className="col-lg-9 col-md-12">
-    //             <div className="row pb-3">
-    //                 <SearchProduct placeholder="Buscar producto" onResults={handleSearchResults}/>
-                    
-
-    //                 <div className="col-lg-4 col-md-6 col-sm-12 pb-1">
-    //                 <Skeleton variant="rectangular" width="100%" height={300} />
-    //                 <Skeleton variant="rectangular" width="100%" style={{ marginTop: 5 }}>
-    //                     {/* <div style={{ paddingTop: '57%' }} /> */}
-    //                 </Skeleton>
-    //                 </div>
-    //                 <div className="col-lg-4 col-md-6 col-sm-12 pb-1">
-    //                 <Skeleton variant="rectangular" width="100%" height={300} />
-    //                 <Skeleton variant="rectangular" width="100%" style={{ marginTop: 5 }}>
-    //                     {/* <div style={{ paddingTop: '57%' }} /> */}
-    //                 </Skeleton>
-    //                 </div>
-    //                 <div className="col-lg-4 col-md-6 col-sm-12 pb-1">
-    //                 <Skeleton variant="rectangular" width="100%" height={300} />
-    //                 <Skeleton variant="rectangular" width="100%" style={{ marginTop: 5 }}>
-    //                     {/* <div style={{ paddingTop: '57%' }} /> */}
-    //                 </Skeleton>
-    //                 </div>
-                    
-
-
-                    
-    //             </div>
-    //         </div>
-    //         </>
-    //     )
-    // }
 
   return (
     <>
@@ -176,9 +102,24 @@ function ShopProducts() {
                     <div className="col-12 pb-1">
                     <SearchProduct placeholder="Buscar producto" onResults={handleSearchResults}/>
                     </div>
-                    {data.map((P) => (
-                    <Product_Card key={P._id} ID={P._id} Title={P.productName} Color={P.productColors[0]} Image={P.productMainImage} Size={P.productSizes[0]} Quantity={1} Price={P.productPrice} Offer={P.productOffer} Discount={P.productDiscount} />
-                        ))}
+                    {data && Array.isArray(data) && data.length > 0 ? (
+                        data.map((P) => (
+                            <Product_Card 
+                                key={P._id} 
+                                ID={P._id} 
+                                Title={P.productName} 
+                                Color={P.productColors[0]} 
+                                Image={P.productMainImage} 
+                                Size={P.productSizes[0]} 
+                                Quantity={1} 
+                                Price={P.productPrice} 
+                                Offer={P.productOffer} 
+                                Discount={P.productDiscount} 
+                            />
+                        ))
+                    ) : (
+                        <p>No hay productos disponibles.</p>
+                    )}
                     
                 </div>
             </div>

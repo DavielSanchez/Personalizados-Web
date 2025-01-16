@@ -8,7 +8,6 @@ import { es } from 'date-fns/locale';
 
 function Description(P) {
     const [data, setData] = useState([]);
-    console.log(P.productId)
     const [reviews, setReviews] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [hasMoreReviews, setHasMoreReviews] = useState(true);
