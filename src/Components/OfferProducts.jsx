@@ -6,9 +6,13 @@ import { getAuth } from "firebase/auth";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 
 function OfferProducts() {
+
+  const MySwal = withReactContent(Swal)
     
     const [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(true);
@@ -22,24 +26,7 @@ function OfferProducts() {
     const [productQuantity, setProductQuantity] = useState('');
     const [productPrice, setProductPrice] = useState('');
     
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
-        try{
-            const url = `${import.meta.env.VITE_API_LINK}/products/offer/true`
-            const response = await fetch(url)
-            const result = await response.json()
-            setData(result)
-            // console.log(data)
-        }
-        catch (error){
-            // console.error(error)
-        }
-    }
-
-
+    
     useEffect(() => {
         const auth = getAuth();
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -49,82 +36,93 @@ function OfferProducts() {
                 setIsLoading(false);
             }
         });
-    
+        
         // Limpiar el efecto
         return () => unsubscribe();
-    }, []);
-    
-    useEffect(() => {
-        if (uid) {
-            fetchUserData(uid);
+      }, []);
+
+      useEffect(() => {
+          if (uid) {
+              fetchUserData(uid);
+          }
+      }, [uid]);
+      
+      const fetchUserData = async (userUid) => {
+          try {
+              const urlUser = `${import.meta.env.VITE_API_LINK}/user/uid/${userUid}`;
+              const response = await fetch(urlUser);
+      
+              if (!response.ok) {
+                  throw new Error(`Error en la solicitud: ${response.statusText}`);
+              }
+      
+              const result = await response.json();
+      
+              if (Array.isArray(result) && result.length > 0) {
+                  setUserId(result[0]._id);
+              } else {
+              }
+          } catch (error) {
+          } finally {
+              setIsLoading(false);  
+          }
+      };
+
+      useEffect(() => {
+          fetchData();
+      }, []);
+      
+    const fetchData = async () => {
+        try{
+            const url = `${import.meta.env.VITE_API_LINK}/products/offer/true`
+            const response = await fetch(url)
+            const result = await response.json()
+            setData(result)
+            console.log(result)
         }
-    }, [uid]);
-    
-    const fetchUserData = async (userUid) => {
-        try {
-            const urlUser = `${import.meta.env.VITE_API_LINK}/user/uid/${userUid}`;
-            const response = await fetch(urlUser);
-    
-            if (!response.ok) {
-                throw new Error(`Error en la solicitud: ${response.statusText}`);
-            }
-    
-            const result = await response.json();
-    
-            if (Array.isArray(result) && result.length > 0) {
-                setUserId(result[0]._id);
-            } else {
-            }
-        } catch (error) {
-        } finally {
-            setIsLoading(false);  
-        }
-    };
-
-    const dataProduct = {
-        userId: userId,
-        productId: productId,
-        productName: productName,
-        productColor: productColor,
-        productImage: productImage,
-        productSize: productSize,
-        productQuantity: productQuantity,
-        productPrice: productPrice,
-    };
-
-    const addToCart = async (e) => {
-
-        e.preventDefault();
-
-        if (userId != null) {
-            try {
-            const response = await fetch(`${import.meta.env.VITE_API_LINK}/cart/add`, {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json', 
-                },
-                body: JSON.stringify(dataProduct), 
-            });
-        
-            if (!response.ok) {
-                throw new Error('Error al enviar el post');
-            }
-        
-            const responseData  = await response.json(); 
-            MySwal.fire({
-                icon: "success",
-                title: "El producto se agrego a tu carrito.",
-                showConfirmButton: false,
-                timer: 1500
-              });
-            
-            } catch (error) {
-            console.error('Error:', error);
-            }
-        }else{
-
+        catch (error){
+            // console.error(error)
         }
     }
+
+    const addToCart = async (product) => {
+      try {
+          const dataProduct = {
+              userId,
+              productId: product._id,
+              productName: product.productName,
+              productColor: product.productColor,
+              productImage: product.productMainImage,
+              productSize: product.productSize,
+              productQuantity: 1,
+              productPrice: product.productDiscount || product.productPrice,
+          };
+  
+          const response = await fetch(`${import.meta.env.VITE_API_LINK}/cart/add`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(dataProduct),
+          });
+  
+          if (!response.ok) {
+              throw new Error('Error al agregar al carrito');
+          }
+  
+          const responseData = await response.json();
+          MySwal.fire({
+              icon: "success",
+              title: "El producto se agregó a tu carrito.",
+              showConfirmButton: false,
+              timer: 1500,
+          });
+      } catch (error) {
+          MySwal.fire({
+              icon: "error",
+              title: "Error al agregar el producto.",
+              text: error.message,
+          });
+      }
+  }
 
 
 
@@ -179,18 +177,20 @@ function OfferProducts() {
                             <h6>RD${new Intl.NumberFormat().format(P.productDiscount)}</h6><h6 className="text-danger ml-2"><del>RD${new Intl.NumberFormat().format(P.productPrice)}</del></h6>
                         </div>
                     </div>
-                    <div className="card-footer d-flex justify-content-center bg-light border">
+                    <div className="card-footer d-flex justify-content-between bg-light border">
                     <Link 
                     to={{
-                      pathname: `/product/${P._id}`,
-                      hash: '#search',
-                  }} 
+                        pathname: `/product/${P.ID}`,
+                        hash: '#search',
+                    }} 
                     className="btn btn-sm text-dark p-0" 
-                    state={{ productId: P._id }}>
+                    state={{ productId: P._id, userId: userId }}>
                         <i className="fas fa-eye text-primary mr-1" ></i>View Details
                         </Link>
-                        {/* <a href="" className="btn btn-sm text-dark p-0"><i className="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</a> */}
-                    </div>
+                        <button to="" className="btn btn-sm text-dark p-0" onClick={() => addToCart(P)}><i className="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                        {/* <addToShoppingCart  /> */}
+                        
+                </div>
               </div>
             </div>
           </SwiperSlide>

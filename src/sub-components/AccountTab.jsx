@@ -106,7 +106,7 @@ function AccountTab() {
             });
         
             if (!response.ok) {
-              throw new Error('Error al enviar la solicitud PUT');
+              throw new Error(`Error ${response.status}: ${response.statusText}`);
             }
         
             // const responseData = await response.json()
