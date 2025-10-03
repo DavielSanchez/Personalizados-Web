@@ -1,4 +1,4 @@
-name: Deploy React Build to Hostinger
+name: Deploy Vite Build to Hostinger
 
 on:
   push:
@@ -9,30 +9,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Clonar repositorio
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 2️⃣ Instalar dependencias y crear build de Vite
       - name: Install dependencies and build
         run: |
           npm install
           npm run build
 
-      - name: Clean remote folder
+      # 3️⃣ Subir build al FTP y limpiar carpeta remota
+      - name: Deploy dist via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
-          local-dir: ./build
+          local-dir: ./dist/                # Carpeta generada por Vite
           server-dir: /public_html/personalizadosrd/
-          git-ftp-args: --insecure --delete
-
-      - name: Deploy build via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          local-dir: ./build
-          server-dir: /public_html/personalizadosrd/
-          git-ftp-args: --insecure
+          dangerous-clean-slate: true       # Borra archivos antiguos
