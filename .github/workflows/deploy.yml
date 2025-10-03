@@ -27,5 +27,5 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           local-dir: ./dist/                # Carpeta generada por Vite
-          server-dir: /public_html/personalizadosrd/
+          server-dir: /personalizadosrd/
           dangerous-clean-slate: true       # Borra archivos antiguos
