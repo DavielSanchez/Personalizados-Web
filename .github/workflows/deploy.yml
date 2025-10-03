@@ -1,0 +1,38 @@
+name: Deploy React Build to Hostinger
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies and build
+        run: |
+          npm install
+          npm run build
+
+      - name: Clean remote folder
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: ./build
+          server-dir: /public_html/personalizadosrd/
+          git-ftp-args: --insecure --delete
+
+      - name: Deploy build via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: ./build
+          server-dir: /public_html/personalizadosrd/
+          git-ftp-args: --insecure
