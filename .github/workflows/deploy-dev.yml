@@ -2,7 +2,7 @@ name: Deploy Vite Build to Hostinger (Dev)
 
 on:
   push:
-    branches: [dev]  # Se ejecuta solo al hacer push a la rama dev
+    branches: [dev] 
 
 jobs:
   build-and-deploy:
@@ -26,6 +26,6 @@ jobs:
           server: ${{ secrets.FTP_HOST_DEV }}
           username: ${{ secrets.FTP_USER_DEV }}
           password: ${{ secrets.FTP_PASS_DEV }}
-          local-dir: ./dist/                # Carpeta generada por Vite
-          server-dir: /public_html/blanchedalmond-kingfisher-785257/
+          local-dir: ./dist/               
+          server-dir: /public_html/
           dangerous-clean-slate: true       # Borra archivos antiguos
