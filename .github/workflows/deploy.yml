@@ -9,24 +9,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Clonar repositorio
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Instalar dependencias y crear build de Vite
       - name: Install dependencies and build
         run: |
           npm install
           npm run build
-          # Nota: No es necesario copiar htaccess si quieres preservar el del servidor
 
-      # 3️⃣ Subir build al FTP sin borrar archivos existentes
       - name: Deploy dist via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
-          local-dir: ./dist/                # Carpeta generada por Vite
+          local-dir: ./dist/
           server-dir: /personalizadosrd/
-          dangerous-clean-slate: true      # <-- NO borra archivos existentes, tu .htaccess se mantiene
+          dangerous-clean-slate: false
+          exclude:
+            - .htaccess
