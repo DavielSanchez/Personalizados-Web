@@ -9,14 +9,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Clonar repositorio
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 2️⃣ Crear .env para Vite con secretos de Firebase
+      - name: Create .env for Vite
+        run: |
+          echo "VITE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> .env
+          echo "VITE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}" >> .env
+          echo "VITE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}" >> .env
+          echo "VITE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}" >> .env
+          echo "VITE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}" >> .env
+          echo "VITE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> .env
+          echo "VITE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}" >> .env
+
+      # 3️⃣ Instalar dependencias y hacer build
       - name: Install dependencies and build
         run: |
           npm install
           npm run build
 
+      # 4️⃣ Subir dist al FTP de Hostinger sin borrar archivos existentes
       - name: Deploy dist via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
@@ -25,4 +39,4 @@ jobs:
           password: ${{ secrets.FTP_PASS }}
           local-dir: ./dist/       # Carpeta generada por Vite
           server-dir: /personalizadosrd/
-          dangerous-clean-slate: false
+          dangerous-clean-slate: false  # Preserva .htaccess y otros archivos
