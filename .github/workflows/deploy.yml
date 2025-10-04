@@ -18,7 +18,7 @@ jobs:
         run: |
           npm install
           npm run build
-          cp ./htaccess ./dist/.htaccess   # <-- Copia .htaccess al build
+          # Nota: No es necesario copiar htaccess si quieres preservar el del servidor
 
       # 3️⃣ Subir build al FTP sin borrar archivos existentes
       - name: Deploy dist via FTP
@@ -29,4 +29,4 @@ jobs:
           password: ${{ secrets.FTP_PASS }}
           local-dir: ./dist/                # Carpeta generada por Vite
           server-dir: /personalizadosrd/
-          dangerous-clean-slate: true      # <-- NO borra archivos existentes, tu .htaccess se mantiene
+          dangerous-clean-slate: false      # <-- NO borra archivos existentes, tu .htaccess se mantiene
