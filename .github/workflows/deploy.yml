@@ -26,5 +26,3 @@ jobs:
           local-dir: ./dist/
           server-dir: /personalizadosrd/
           dangerous-clean-slate: false
-          exclude:
-            - .htaccess
