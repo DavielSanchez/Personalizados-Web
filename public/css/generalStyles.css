@@ -9997,7 +9997,7 @@ input[type=number]::-webkit-outer-spin-button {
 .newFormAccountInput {
     margin-left: 1%;
     margin-top: 2%;
-    width: 28%;
+    width: 35%;
     height: 50%;
     display: flex;
     justify-content: space-between;
@@ -10042,11 +10042,6 @@ input[type=number]::-webkit-outer-spin-button {
     .securityTabContainer {
         justify-content: center;
     }
-}
-
-.container-fluid {
-    overflow: hidden;
-    /* Por defecto, sin scroll */
 }
 
 .vendor-item {

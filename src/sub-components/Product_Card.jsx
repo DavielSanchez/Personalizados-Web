@@ -5,6 +5,7 @@ import { getAuth } from "firebase/auth";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 function Product_Card(P) {
+    
 
     const MySwal = withReactContent(Swal)
 
@@ -17,6 +18,8 @@ function Product_Card(P) {
     const [productQuantity, setProductQuantity] = useState(P.Quantity);
     const [productPrice, setProductPrice] = useState(P.Price);
     const [productDiscount, setProductDiscount] = useState(P.Discount);
+    const isPriceDisabled = P.IsPriceDisabled
+
 
     const [isLoading, setIsLoading] = useState(true);
     const [uid, setUid] = useState(null);
@@ -44,6 +47,7 @@ function Product_Card(P) {
     }, [uid]);
     
     const fetchUserData = async (uid) => {
+        
         try {
             const urlUser = `${import.meta.env.VITE_API_LINK}/user/uid/${uid}`;
             const response = await fetch(urlUser);
@@ -129,47 +133,47 @@ function Product_Card(P) {
             } catch (error) {
             console.error('Error:', error);
             }
-        }else{
-
         }
     }
 
-    if (P.Offer === true) {
-        return (
-            <>
-        <div className="col-lg-4 col-md-6 col-sm-12 pb-1">
-            <div className="card product-item border-0 mb-4">
-                <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                    <img className="img-fluid w-100" src={P.Image} alt=""/>
-                </div>
-                <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                    <h6 className="text-truncate mb-3">{P.Title}</h6>
-                    <div className="d-flex justify-content-center">
-                        <h6>RD${new Intl.NumberFormat().format(P.Discount)}</h6><h6 className="text-danger ml-2"><del>RD${new Intl.NumberFormat().format(P.Price)}</del></h6>
-                        {/* <h6 className="text-muted ml-2">
-                            <del>${new Intl.NumberFormat().format()}</del>
-                        </h6> */}
-                    </div>
-                </div>
-                <div className="card-footer d-flex justify-content-between bg-light border">
-                    <Link 
-                    to={{
-                        pathname: `/product/${P.ID}`,
-                        hash: '#search',
-                    }} 
-                    className="btn btn-sm text-dark p-0" 
-                    state={{ productId: P.ID, userId: userId }}>
-                        <i className="fas fa-eye text-primary mr-1" ></i>View Details
-                        </Link>
-                        <button to="" className="btn btn-sm text-dark p-0" onClick={addToCart}><i className="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
-                        {/* <addToShoppingCart  /> */}
+    // if (P.Offer === true) {
+    //     return (
+    //         <>
+    //     <div className="col-lg-4 col-md-6 col-sm-12 pb-1">
+    //         <div className="card product-item border-0 mb-4">
+    //             <div className="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+    //                 <img className="img-fluid w-100" src={P.Image} alt=""/>
+    //             </div>
+    //             <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
+    //                 <h6 className="text-truncate mb-3">{P.Title}</h6>
+    //                 <div className="d-flex justify-content-center">
+    //                     {
+    //                         !isPriceDisabled ? <><h6>RD${new Intl.NumberFormat().format(P.Discount)}</h6><h6 className="text-danger ml-2"><del>RD${new Intl.NumberFormat().format(P.Price)}</del></h6></> : <h6>No hay precio</h6>
+    //                     }
+    //                     {/* <h6 className="text-muted ml-2">
+    //                         <del>${new Intl.NumberFormat().format()}</del>
+    //                     </h6> */}
+    //                 </div>
+    //             </div>
+    //             <div className="card-footer d-flex justify-content-between bg-light border">
+    //                 <Link 
+    //                 to={{
+    //                     pathname: `/product/${P.ID}`,
+    //                     hash: '#search',
+    //                 }} 
+    //                 className="btn btn-sm text-dark p-0" 
+    //                 state={{ productId: P.ID, userId: userId }}>
+    //                     <i className="fas fa-eye text-primary mr-1" ></i>View Details
+    //                     </Link>
+    //                     <button to="" className="btn btn-sm text-dark p-0" onClick={addToCart}><i className="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+    //                     {/* <addToShoppingCart  /> */}
                         
-                </div>
-            </div>
-        </div>
-    </>
-        )
-    }
+    //             </div>
+    //         </div>
+    //     </div>
+    // </>
+    //     )
+    // }
 
   return (
     <>
@@ -181,11 +185,18 @@ function Product_Card(P) {
                 <div className="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 className="text-truncate mb-3">{P.Title}</h6>
                     <div className="d-flex justify-content-center">
-                        <h6>RD${new Intl.NumberFormat().format(P.Price)}</h6>
-                        {/* <h6 className="text-muted ml-2">
-                            <del>${new Intl.NumberFormat().format()}</del>
-                        </h6> */}
-                    </div>
+                        
+                            {P.Offer ? (
+                            <>
+                                <h6>RD${new Intl.NumberFormat().format(P.Discount)}</h6>
+                                <h6 className="text-danger ml-2">
+                                <del>RD${new Intl.NumberFormat().format(P.Price)}</del>
+                                </h6>
+                            </>
+                            ) : (
+                            <h6>RD${new Intl.NumberFormat().format(P.Price)}</h6>
+                            )}
+                        </div>
                 </div>
                 <div className="card-footer d-flex justify-content-between bg-light border">
                     <Link 

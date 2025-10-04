@@ -212,7 +212,7 @@ function AccountTab() {
           </div>
         </div>
         <div className="formAccount">
-          <Box component="form" sx={{ '& .MuiTextField-root': { m: 1, width: '60%' } }} noValidate autoComplete="off">
+          <Box component="form" sx={{ '& .MuiTextField-root': { m: 1, width: '48%' } }} noValidate autoComplete="off">
             <TextField
               label="Nombre(s)"
               value={newFirstName}
@@ -235,7 +235,7 @@ function AccountTab() {
               onChange={(e) => setNewPhone(e.target.value)}
             />
           </Box>
-          <div className="newFormAccountInput">
+          <div className="newFormAccountInput ">
             <Button
               variant="contained"
               startIcon={
@@ -254,7 +254,7 @@ function AccountTab() {
             >
               Guardar Cambios
             </Button>
-            <Button variant="outlined" color="error" onClick={restaurar} sx={{marginLeft: '2%'}}>Restaurar</Button>
+            <Button variant="outlined" color="error" onClick={restaurar} sx={{marginLeft: '2%', paddingX: 5, '&:hover': { backgroundColor: '#ff0000ff', color: '#fff' },}}>Restaurar</Button>
           </div>
         </div>
       </div>

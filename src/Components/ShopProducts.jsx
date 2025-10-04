@@ -51,17 +51,17 @@ function ShopProducts() {
     }, [url, page]);
 
     const fetchData = async () => {
-        try{
-            const response = await fetch(url)
-            const result = await response.json()
-            setData(result.docs || result)
-            setHasMoreProducts(result.hasNextPage || (result.docs && result.docs.length === limit));
-        }
-        catch (error){
-            setHasMoreProducts(false);
-            // console.error(error)
-        }
+    try {
+        const response = await fetch(url);
+        const result = await response.json();
+
+        setData(result.docs || []);
+        setHasMoreProducts(result.hasNextPage);
+    } catch (error) {
+        setHasMoreProducts(false);
+        console.error(error);
     }
+    };
 
 
   return (
@@ -117,6 +117,7 @@ function ShopProducts() {
                                 Price={P.productPrice} 
                                 Offer={P.productOffer} 
                                 Discount={P.productDiscount} 
+                                IsPriceDisabled={P.isPriceDisabled}
                             />
                         ))
                     ) : (

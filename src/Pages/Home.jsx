@@ -12,7 +12,7 @@ function Home() {
     <>
     <title>Personalizados Web</title>
     <TopBar/>
-    <AlertDisclaimer/>
+    {/* <AlertDisclaimer/> */}
     <NavBarHome/>
     <Features/>
     <Categories/>
