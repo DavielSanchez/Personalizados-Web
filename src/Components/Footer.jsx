@@ -33,11 +33,11 @@ function Footer() {
                 <p className="mb-md-0 text-center text-md-left text-dark">
                     &copy; <a className="text-dark font-weight-semi-bold" href="https://www.instagram.com/_personalizados_rd">Personalizados RD</a>. All Rights Reserved. Designed
                     by
-                    <a className="text-dark font-weight-semi-bold" href="https://github.com/DavielSanchez"> Daviel Sanchez</a><br/>
+                    <a className="text-dark font-weight-semi-bold" href="https://davielsanchez.com"> Daviel Sanchez</a><br/>
                 </p>
             </div>
             <div className="col-md-6 px-xl-0 text-center text-md-right">
-                <img className="img-fluid" src="../../public/img/payments.png" alt=""/>
+                <img className="img-fluid" src="/img/payments.png" alt=""/>
             </div>
         </div>
     </div>
