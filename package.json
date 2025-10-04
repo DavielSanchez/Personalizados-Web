@@ -28,6 +28,7 @@
         "sweetalert2": "^11.14.3",
         "sweetalert2-react-content": "^5.0.7",
         "swiper": "^11.1.15",
+        "terser": "^5.44.0",
         "v4": "^0.0.1",
         "vite": "^4.4.0"
     },
