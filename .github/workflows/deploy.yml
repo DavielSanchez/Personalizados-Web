@@ -23,6 +23,6 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
-          local-dir: ./dist/
+          local-dir: ./dist/       # Carpeta generada por Vite
           server-dir: /personalizadosrd/
           dangerous-clean-slate: false
