@@ -1,6 +1,6 @@
+Options +FollowSymlinks
 RewriteEngine On
-RewriteBase /personalizadosrd/
-RewriteRule ^index\.html$ - [L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /personalizadosrd/index.html [L]
+RewriteRule ^ index.html [L]
