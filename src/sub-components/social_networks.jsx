@@ -14,11 +14,11 @@ function social_networks() {
             </div>
             <div className="col-lg-4 text-center">
                 <a className="text-dark px-2" href="">
-                    <img src="../../public/img/en-todo-el-mundo.png" alt="" width={'20px'}/>
+                    <img src="/img/en-todo-el-mundo.png" alt="" width={'20px'}/>
                 </a>
                 <a href="/"><span className="text-primary">Personalizados RD</span></a>
                 <a className="text-dark px-2" href="">
-                    <img src="../../public/img/bandera.png" alt="" width={'20px'}/>
+                    <img src="/img/bandera.png" alt="" width={'20px'}/>
                 </a>
             </div>
             <div className="col-lg-4 text-center text-lg-right">

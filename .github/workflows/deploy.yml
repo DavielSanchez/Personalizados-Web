@@ -30,6 +30,7 @@ jobs:
         run: |
           npm install
           npm run build
+          # Nota: No es necesario copiar htaccess si quieres preservar el del servidor
 
       # 4️⃣ Subir dist al FTP de Hostinger sin borrar archivos existentes
       - name: Deploy dist via FTP
@@ -40,4 +41,5 @@ jobs:
           password: ${{ secrets.FTP_PASS }}
           local-dir: ./dist/       # Carpeta generada por Vite
           server-dir: /personalizadosrd/
-          dangerous-clean-slate: false  # Preserva .htaccess y otros archivos
+          dangerous-clean-slate: false      # <-- NO borra archivos existentes, tu .htaccess se mantiene
+
