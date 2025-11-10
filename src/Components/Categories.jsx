@@ -8,7 +8,7 @@ function Categories() {
   const [Productdata, setProductdata] = useState([]);
 
   const urlCategories = `${import.meta.env.VITE_API_LINK}/categories`;
-  const urlProducts = `${import.meta.env.VITE_API_LINK}/products`;
+  const urlProducts = `${import.meta.env.VITE_API_LINK}/store/products`;
 
   useEffect(() => {
     fetchDataCategories();
@@ -80,7 +80,7 @@ function Categories() {
                   ({getProductsCountByCategory(P._id)}) Productos
                 </p> */}
                 <Link
-                  to={{ pathname: `/category/${P.categoryTag}`,hash: '#banner' }}
+                  to={{ pathname: `/category/${P.categoryName}`,hash: '#banner' }}
                   className="cat-img position-relative overflow-hidden mb-3"
                   state={{ Current: P.categoryName, categoryId: P._id }}
                 >

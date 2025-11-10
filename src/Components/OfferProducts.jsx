@@ -74,7 +74,7 @@ function OfferProducts() {
       
     const fetchData = async () => {
         try{
-            const url = `${import.meta.env.VITE_API_LINK}/products/offer/true`
+            const url = `${import.meta.env.VITE_API_LINK}/store/products/offer/true`
             const response = await fetch(url)
             const result = await response.json()
             setData(result)

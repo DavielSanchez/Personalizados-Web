@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react"
-// import { Link } from "react-router-dom"
 import Navigation from "./Navigation"
 import Product_Card from "../sub-components/Product_Card"
 import Skeleton from '@mui/material/Skeleton';
@@ -14,18 +13,18 @@ function ShopProducts() {
     const [filter, setFilter] = useState('')
     const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
-    const [url, setUrl] = useState(`${import.meta.env.VITE_API_LINK}/products?priceRange=${filter}&limit=${limit}&page=${page}`)
-    const baseUrl = `${import.meta.env.VITE_API_LINK}/products?priceRange=${filter}`
+    const [url, setUrl] = useState(`${import.meta.env.VITE_API_LINK}/store/products?priceRange=${filter}&limit=${limit}&page=${page}`)
+    const baseUrl = `${import.meta.env.VITE_API_LINK}/store/products?priceRange=${filter}`
     const [hasMoreProducts, setHasMoreProducts] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (debounceTimeout) clearTimeout(debounceTimeout);
     
         const timeout = setTimeout(() => {
             const newUrl = query.trim()
-                ? `${import.meta.env.VITE_API_LINK}/products/${query}?priceRange=${filter}&limit=${limit}&page=${page}`
+                ? `${import.meta.env.VITE_API_LINK}/store/products/${query}?priceRange=${filter}&limit=${limit}&page=${page}`
                 : `${baseUrl}&limit=${limit}&page=${page}`;
-            console.log("Updating URL to:", newUrl);
             setUrl(newUrl);
         }, 100);
     
@@ -34,44 +33,88 @@ function ShopProducts() {
         return () => clearTimeout(timeout);
     }, [query, filter, page]);
 
-      const handleSearchResults = (results) => {
+    const handleSearchResults = (results) => {
         setQuery(results);
-      };
+        setPage(1); // Reset to first page when searching
+    };
 
-      const handleCheckboxChange = (value) => {
+    const handleCheckboxChange = (value) => {
         setFilter(value);
-      };
+        setPage(1); // Reset to first page when filter changes
+    };
 
-      const handlePagination = (newPage) => {
+    const handlePagination = (newPage) => {
         setPage(newPage);
     };
 
     useEffect(() => {
         fetchData();
-    }, [url, page]);
+    }, [url]);
 
     const fetchData = async () => {
-    try {
-        const response = await fetch(url);
-        const result = await response.json();
+        setLoading(true);
+        try {
+            const response = await fetch(url);
+            const result = await response.json();
 
-        setData(result.docs || []);
-        setHasMoreProducts(result.hasNextPage);
-    } catch (error) {
-        setHasMoreProducts(false);
-        console.error(error);
-    }
+            if (result.docs) {
+                setData(result.docs);
+                setHasMoreProducts(result.hasNextPage || false);
+            } else {
+                setData([]);
+                setHasMoreProducts(false);
+            }
+        } catch (error) {
+            setHasMoreProducts(false);
+            setData([]);
+            console.error("Error fetching products:", error);
+        } finally {
+            setLoading(false);
+        }
     };
 
+    // Safe data access helper functions
+    const getFirstColor = (product) => {
+        // Since your API doesn't provide colors, provide a default
+        return "Default Color";
+    };
 
-  return (
+    const getFirstSize = (product) => {
+        // Since your API doesn't provide sizes, provide a default
+        return "Default Size";
+    };
+
+    const getMainImage = (product) => {
+        return product?.productMainImage || "";
+    };
+
+    const getProductName = (product) => {
+        return product?.productName || "Unnamed Product";
+    };
+
+    const getProductPrice = (product) => {
+        return product?.productPrice || 0;
+    };
+
+    const getProductOffer = (product) => {
+        return product?.productOffer || false;
+    };
+
+    const getProductDiscount = (product) => {
+        return product?.productDiscount || 0;
+    };
+
+    const getIsPriceDisabled = (product) => {
+        return product?.isPriceDisabled || false;
+    };
+
+    return (
     <>
     <div className="col-lg-3 col-md-12">
-        
         <div className="border-bottom mb-4 pb-4">
             <h5 className="font-weight-semi-bold mb-4">Filter by price</h5>
             <form>
-            <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                     <input type="checkbox" className="custom-control-input" id="all-1" checked={filter === ""} onChange={() => handleCheckboxChange("")}/>
                     <label className="custom-control-label" htmlFor="all-1">All</label>
                 </div>
@@ -94,39 +137,49 @@ function ShopProducts() {
                 <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between">
                     <input type="checkbox" className="custom-control-input" id="price-5" checked={filter === "1000-2000"} onChange={() => handleCheckboxChange("1000-2000")}/>
                     <label className="custom-control-label" htmlFor="price-5">RD$1000 - RD$2000</label>
-                    {/* <span className="badge font-weight-normal text-black">168</span> */}
                 </div>
             </form>
         </div>
-        </div>
+    </div>
     <div className="col-lg-9 col-md-12">
-                <div className="row pb-3">
-                    <div className="col-12 pb-1">
-                    <SearchProduct placeholder="Buscar producto" onResults={handleSearchResults}/>
-                    </div>
-                    {data && Array.isArray(data) && data.length > 0 ? (
-                        data.map((P) => (
-                            <Product_Card 
-                                key={P._id} 
-                                ID={P._id} 
-                                Title={P.productName} 
-                                Color={P.productColors[0]} 
-                                Image={P.productMainImage} 
-                                Size={P.productSizes[0]} 
-                                Quantity={1} 
-                                Price={P.productPrice} 
-                                Offer={P.productOffer} 
-                                Discount={P.productDiscount} 
-                                IsPriceDisabled={P.isPriceDisabled}
-                            />
-                        ))
-                    ) : (
-                        <p>No hay productos disponibles.</p>
-                    )}
-                    
-                </div>
+        <div className="row pb-3">
+            <div className="col-12 pb-1">
+                <SearchProduct placeholder="Buscar producto" onResults={handleSearchResults}/>
             </div>
-                <Navigation hasMore={hasMoreProducts} current={page} onSentPage={handlePagination}/>
+            
+            {loading ? (
+                // Show loading skeletons while fetching data
+                Array.from({ length: 6 }).map((_, index) => (
+                    <div key={index} className="col-lg-4 col-md-6 col-sm-12 pb-1">
+                        <Skeleton variant="rectangular" width={210} height={118} />
+                        <Skeleton variant="text" />
+                        <Skeleton variant="text" />
+                    </div>
+                ))
+            ) : data && Array.isArray(data) && data.length > 0 ? (
+                data.map((P) => (
+                    <Product_Card 
+                        key={P._id} 
+                        ID={P._id} 
+                        Title={getProductName(P)} 
+                        Color={getFirstColor(P)} 
+                        Image={getMainImage(P)} 
+                        Size={getFirstSize(P)} 
+                        Quantity={1} 
+                        Price={getProductPrice(P)} 
+                        Offer={getProductOffer(P)} 
+                        Discount={getProductDiscount(P)} 
+                        IsPriceDisabled={getIsPriceDisabled(P)}
+                    />
+                ))
+            ) : (
+                <div className="col-12 text-center">
+                    <p>No hay productos disponibles.</p>
+                </div>
+            )}
+        </div>
+    </div>
+    <Navigation hasMore={hasMoreProducts} current={page} onSentPage={handlePagination}/>
     </>
   )
 }

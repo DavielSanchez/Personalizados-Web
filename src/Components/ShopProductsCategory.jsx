@@ -1,11 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react"
-// import { Link } from "react-router-dom"
 import Navigation from "./Navigation"
 import Product_Card from "../sub-components/Product_Card"
-// import { Auth } from "../FireBaseConfig/Authentication"
 import SearchProduct from "../sub-components/SearchProduct";
-
 
 function ShopProductsCategory(P) {
     const [data, setData] = useState([]);
@@ -14,7 +11,7 @@ function ShopProductsCategory(P) {
     const [filter, setFilter] = useState('');
     const [limit, setLimit] = useState(15);
     const [page, setPage] = useState(1);
-    const baseUrl = `${import.meta.env.VITE_API_LINK}/products/category/${P.categoryId}?limit=${limit}&page=${page}`;
+    const baseUrl = `${import.meta.env.VITE_API_LINK}/store/products/category/${P.categoryId}?limit=${limit}&page=${page}`;
     const [url, setUrl] = useState(baseUrl);
     const [hasMoreProducts, setHasMoreProducts] = useState(true);
 
@@ -22,7 +19,6 @@ function ShopProductsCategory(P) {
         if (debounceTimeout) clearTimeout(debounceTimeout);
     
         const timeout = setTimeout(() => {
-            // Construir la URL dinámicamente dependiendo de los filtros y búsqueda
             let newUrl = baseUrl;
 
             if (filter) {
@@ -63,7 +59,12 @@ function ShopProductsCategory(P) {
             const result = await response.json();
             console.log(result);
             console.log(url);
-            setData(result);
+            
+            if (result.products && Array.isArray(result.products)) {
+                setData(result.products);
+            } else {
+                setData([]);
+            }
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -72,7 +73,6 @@ function ShopProductsCategory(P) {
   return (
     <>
     <div className="col-lg-3 col-md-12">
-        
         <div className="border-bottom mb-4 pb-4">
             <h5 className="font-weight-semi-bold mb-4">Filter by price</h5>
             <form>
@@ -99,7 +99,6 @@ function ShopProductsCategory(P) {
                 <div className="custom-control custom-checkbox d-flex align-items-center justify-content-between">
                     <input type="checkbox" className="custom-control-input" id="price-5" checked={filter === "1000-2000"} onChange={() => handleCheckboxChange("1000-2000")}/>
                     <label className="custom-control-label" htmlFor="price-5">RD$1000 - RD$2000</label>
-                    {/* <span className="badge font-weight-normal text-black">168</span> */}
                 </div>
             </form>
         </div>
@@ -115,9 +114,9 @@ function ShopProductsCategory(P) {
                                 key={P._id} 
                                 ID={P._id} 
                                 Title={P.productName} 
-                                Color={P.productColors[0]} 
+                                Color={P.productColors?.[0] || ''} 
                                 Image={P.productMainImage} 
-                                Size={P.productSizes[0]} 
+                                Size={P.productSizes?.[0] || ''} 
                                 Quantity={1} 
                                 Price={P.productPrice} 
                                 Offer={P.productOffer} 
