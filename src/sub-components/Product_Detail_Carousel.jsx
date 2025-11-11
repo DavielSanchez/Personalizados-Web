@@ -9,7 +9,7 @@ function Product_Detail_Carousel() {
     const { productId } = location.state;
 
     const [data, setData] = useState(null);
-    const url = `${import.meta.env.VITE_API_LINK}/products/id/${productId}`;
+    const url = `${import.meta.env.VITE_API_LINK}/store/products/id/${productId}`;
 
     useEffect(() => {
         fetchData();
@@ -19,65 +19,76 @@ function Product_Detail_Carousel() {
         try {
             const response = await fetch(url);
             const result = await response.json();
-            if (result.length > 0) {
-                setData(result[0]);
+            console.log("Datos del producto:", result); // Para debug
+            
+            // CORRECCIÓN: result es un objeto, no un array
+            if (result && result._id) {
+                setData(result);
             } else {
                 console.log("No se encontró el producto.");
+                setData(null);
             }
         } catch (error) {
             console.error(error);
+            setData(null);
         }
     };
 
-    // if (!data) return <div>Cargando...</div>;
-
     if (!data) return( 
-    <>
-    <div className="container">
+        <>
+            <div className="container">
                 <div className="featured-wrapper">
                     <ul className="featured-list">
-                    <Skeleton variant="rectangular" width="100%">
-                        <div style={{ paddingTop: '57%' }} />
-                    </Skeleton>
+                        <Skeleton variant="rectangular" width="100%">
+                            <div style={{ paddingTop: '57%' }} />
+                        </Skeleton>
                     </ul>
-                    <ul className="arrows">
-                        
-                    </ul>
-                    <ul className="dots">
-                        
-                    </ul>
+                    <ul className="arrows"></ul>
+                    <ul className="dots"></ul>
                 </div>
                 <ul className="thumb-list">
-                    
-                        <li>
+                    {[1, 2, 3].map((item) => (
+                        <li key={item}>
                             <label htmlFor='image'>
-                            <Skeleton variant="rectangular" width="100%">
-                                <div style={{ paddingTop: '57%' }} />
-                            </Skeleton>
+                                <Skeleton variant="rectangular" width="100%">
+                                    <div style={{ paddingTop: '57%' }} />
+                                </Skeleton>
                             </label>
                         </li>
-                        <li>
-                            <label htmlFor='image'>
-                            <Skeleton variant="rectangular" width="100%">
-                                <div style={{ paddingTop: '57%' }} />
-                            </Skeleton>
-                            </label>
-                        </li>
-                        <li>
-                            <label htmlFor='image'>
-                            <Skeleton variant="rectangular" width="100%">
-                                <div style={{ paddingTop: '57%' }} />
-                            </Skeleton>
-                            </label>
-                        </li>
+                    ))}
                 </ul>
             </div>
-    </>
-    )
+        </>
+    );
+
+    // Verificar que hay imágenes disponibles
+    const productImages = data.productImages && Array.isArray(data.productImages) ? data.productImages : [];
+    
+    // Si no hay imágenes, mostrar un mensaje o imagen por defecto
+    if (productImages.length === 0) {
+        return (
+            <div className="container">
+                <div className="featured-wrapper">
+                    <ul className="featured-list">
+                        <li>
+                            <figure>
+                                <img 
+                                    className='img' 
+                                    src={data.productMainImage || '/img/placeholder.jpg'} 
+                                    alt={data.productName} 
+                                />
+                            </figure>
+                        </li>
+                    </ul>
+                </div>
+                <p className="text-center text-muted mt-3">No hay imágenes adicionales disponibles</p>
+            </div>
+        );
+    }
 
     return (
         <>
-            {data.productImages.map((_, index) => (
+            {productImages.map((_, index) => (
                 <input 
                     key={index} 
                     type="radio" 
@@ -90,23 +101,31 @@ function Product_Detail_Carousel() {
             <div className="container">
                 <div className="featured-wrapper">
                     <ul className="featured-list">
-                        {data.productImages.map((image, index) => (
+                        {productImages.map((image, index) => (
                             <li key={index}>
                                 <figure>
-                                    <img className='img' src={image} alt={`Imagen ${index + 1}`} />
+                                    <img 
+                                        className='img' 
+                                        src={image} 
+                                        alt={`${data.productName} - Imagen ${index + 1}`}
+                                        onError={(e) => {
+                                            // Si la imagen falla al cargar, usar imagen principal o placeholder
+                                            e.target.src = data.productMainImage || '/img/placeholder.jpg';
+                                        }}
+                                    />
                                 </figure>
                             </li>
                         ))}
                     </ul>
                     <ul className="arrows">
-                        {data.productImages.map((_, index) => (
+                        {productImages.map((_, index) => (
                             <li key={index}>
                                 <label htmlFor={`image${index + 1}`}></label>
                             </li>
                         ))}
                     </ul>
                     <ul className="dots">
-                        {data.productImages.map((_, index) => (
+                        {productImages.map((_, index) => (
                             <li key={index}>
                                 <label htmlFor={`image${index + 1}`}></label>
                             </li>
@@ -114,10 +133,17 @@ function Product_Detail_Carousel() {
                     </ul>
                 </div>
                 <ul className="thumb-list">
-                    {data.productImages.map((image, index) => (
+                    {productImages.map((image, index) => (
                         <li key={index}>
                             <label htmlFor={`image${index + 1}`}>
-                                <img className='img' src={image} alt={`Thumbnail ${index + 1}`} />
+                                <img 
+                                    className='img' 
+                                    src={image} 
+                                    alt={`Thumbnail ${index + 1}`}
+                                    onError={(e) => {
+                                        e.target.src = data.productMainImage || '/img/placeholder.jpg';
+                                    }}
+                                />
                                 <span className="outer">
                                     <span className="inner">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-eye-fill text-secondary" viewBox="0 0 16 16">

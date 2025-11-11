@@ -43,15 +43,19 @@ function Reviews(P) {
         });
   
         if (response.ok) {
-          MySwal.fire({
-            title: 'Reseña guardada exitosamente',
-            icon: 'success',
-            confirmButtonText: 'Aceptar',
-          }).then(() => {
-            window.location.reload(); // Recargar la página después de guardar
-          });
-          console.log("bien")
-        } else {
+    MySwal.fire({
+        title: 'Reseña guardada exitosamente',
+        icon: 'success',
+        confirmButtonText: 'Aceptar',
+    }).then(() => {
+        if (P.onReviewAdded) {
+            P.onReviewAdded();
+        }
+        // Limpiar el formulario
+        setReviewRating('');
+        setReviewContent('');
+    });
+} else {
           throw new Error('Error al enviar la reseña');
         }
         console.log("bien")

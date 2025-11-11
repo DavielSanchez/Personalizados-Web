@@ -41,7 +41,7 @@ function Categories_Dropdown() {
           className="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-primary w-100 border-bottom-0 px-3"
           style={{ height: "65px", marginTop: "-1px", padding: 5 }}
         >
-          <h6 className="m-0">Categories</h6>
+          <h6 style={{color: '#fff'}} className="m-0">Categories</h6>
         </div>
         <nav
             className="navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0"
@@ -78,8 +78,8 @@ function Categories_Dropdown() {
           aria-expanded="false"
           style={{ height: "65px", marginTop: "-1px", padding: 5 }}
         >
-          <h6 className="m-0">Categories</h6>
-          <i className="fa fa-angle-down text-dark"></i>
+          <h6 style={{color: '#fff'}} className="m-0">Categories</h6>
+          <i style={{color: '#fff'}} className="fa fa-angle-down"></i>
         </button>
 
         <div

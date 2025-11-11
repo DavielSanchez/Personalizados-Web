@@ -118,6 +118,7 @@ function Suscribe() {
         <div>
           <button
             type="submit"
+            style={{color: '#fff'}}
             className="btn btn-primary btn-block border-0 py-3"
             disabled={isSubmitting}
           >

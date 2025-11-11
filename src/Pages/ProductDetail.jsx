@@ -12,7 +12,7 @@ function ProductDetail() {
   const {productId, userId} = location.state;
   
   const [data, setData] = useState([]);
-  const url = `${import.meta.env.VITE_API_LINK}/products/${productId}`;
+  const url = `${import.meta.env.VITE_API_LINK}/store/products/id/${productId}`;
   // console.log(productId)
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function ProductDetail() {
       <TopBar />
       <NavBar />
       <div className="row px-xl-5" id="productcarousel">
-          <Product_Detail_Carousel images={data.productImages} /> {/* Aquí se pasa correctamente la prop */}
+          <Product_Detail_Carousel images={data.productImages} />
           <Product_Detail_Info productId={productId} userId={userId} />
       </div>
       <Description productId={productId} />

@@ -7,7 +7,7 @@ function Cart_Summary(P) {
                     <div className="input-group">
                         <input type="text" className="form-control p-4" placeholder="Coupon Code"/>
                         <div className="input-group-append">
-                            <button className="btn btn-primary">Apply Coupon</button>
+                            <button style={{color: '#fff'}} className="btn btn-primary">Apply Coupon</button>
                         </div>
                     </div>
                 </form>
@@ -30,7 +30,7 @@ function Cart_Summary(P) {
                             <h5 className="font-weight-bold">Total</h5>
                             <h5 className="font-weight-bold">RD${P.Total}</h5>
                         </div>
-                        <button className="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
+                        <button style={{color: '#fff'}} className="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
                     </div>
                 </div>
             </div>
