@@ -40,6 +40,6 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           local-dir: ./dist/       # Carpeta generada por Vite
-          server-dir: /
+          server-dir: /personalizadosrd
           dangerous-clean-slate: false      # <-- NO borra archivos existentes, tu .htaccess se mantiene
 
