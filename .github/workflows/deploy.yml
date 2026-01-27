@@ -1,8 +1,9 @@
-name: Deploy Vite Build to Hostinger
+name: Deploy Frontend Development
 
 on:
   push:
-    branches: [main]
+    branches:
+      - dev  # Se activa solo en la rama de desarrollo
 
 jobs:
   build-and-deploy:
@@ -11,35 +12,30 @@ jobs:
     steps:
       # 1️⃣ Clonar repositorio
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 2️⃣ Crear .env para Vite con secretos de Firebase
-      - name: Create .env for Vite
+      # 2️⃣ Crear .env (Ajusta las variables a lo que necesite tu proyecto)
+      - name: Create .env
         run: |
-          echo "VITE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> .env
-          echo "VITE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}" >> .env
-          echo "VITE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}" >> .env
-          echo "VITE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}" >> .env
-          echo "VITE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}" >> .env
-          echo "VITE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> .env
-          echo "VITE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}" >> .env
-          echo "VITE_API_LINK=${{ secrets.VITE_API_LINK }}" >> .env
+          echo "VITE_API_LINK=https://api.edugestionrd.com" >> .env
+          # Agrega aquí más variables si las necesitas
 
       # 3️⃣ Instalar dependencias y hacer build
-      - name: Install dependencies and build
+      - name: Install and Build
         run: |
           npm install
           npm run build
-          # Nota: No es necesario copiar htaccess si quieres preservar el del servidor
 
-      # 4️⃣ Subir dist al FTP de Hostinger sin borrar archivos existentes
-      - name: Deploy dist via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+      # 4️⃣ Subir a Hostinger vía FTP
+      - name: Deploy to Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          local-dir: ./dist/       # Carpeta generada por Vite
-          server-dir: /
-          dangerous-clean-slate: false      # <-- NO borra archivos existentes, tu .htaccess se mantiene
-
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Vite genera los archivos listos en 'dist'
+          local-dir: ./dist/  
+          # Ruta exacta para que caiga en el subdominio
+          server-dir: domains/edugestionrd.com/public_html/development/
+          # Importante para no romper nada más en el hosting
+          dangerous-clean-slate: false
